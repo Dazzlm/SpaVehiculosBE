@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="394afc0a13f442ecb5c6e9e8e37f16e0" Name="Diagram1">
+        <EntityTypeShape EntityType="SpaVehicularDBModel.Administrador" Width="1.5" PointX="5.25" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.Ciudad" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.Cliente" Width="1.5" PointX="5.25" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.DetalleFacturaProducto" Width="1.5" PointX="12.75" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.DetalleFacturaServicio" Width="1.5" PointX="12.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.EmailEnviado" Width="1.5" PointX="9.75" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.EmpleadoServicio" Width="1.5" PointX="8.25" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.Factura" Width="1.5" PointX="7.5" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.HistorialClienteProducto" Width="1.5" PointX="10.5" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.HistorialClienteServicio" Width="1.5" PointX="10.5" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.LogActividad" Width="1.5" PointX="5.25" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.Producto" Width="1.5" PointX="10.5" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.Proveedor" Width="1.5" PointX="8.25" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.Reserva" Width="1.5" PointX="7.5" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.Rol" Width="1.5" PointX="0.75" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.Sede" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.SedeProducto" Width="1.5" PointX="12.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.Servicio" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.TurnoEmpleado" Width="1.5" PointX="11.25" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaVehicularDBModel.Usuario" Width="1.5" PointX="3" PointY="15.5" IsExpanded="true" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Administr__IdUsu__30F848ED" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Sede__IdCiudad__2D27B809" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Cliente__IdUsuar__35BCFE0A" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Factura__IdClien__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Historial__IdCli__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Historial__IdCli__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Reserva__IdClien__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__DetalleFa__IdFac__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__DetalleFa__IdPro__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__DetalleFa__IdFac__4CA06362" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__DetalleFa__IdSer__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__EmailEnvi__IdFac__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__EmpleadoS__IdEmp__6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__EmpleadoS__IdSer__68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Factura__IdSede__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Historial__IdPro__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Historial__IdSer__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__LogActivi__IdUsu__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Producto__IdProv__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__SedeProdu__IdPro__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Reserva__IdSede__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Reserva__IdServi__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__Usuario__IdRol__286302EC" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__SedeProdu__IdSed__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__TurnoEmpl__IdSed__6477ECF3" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaVehicularDBModel.FK__TurnoEmpl__IdEmp__6383C8BA" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
