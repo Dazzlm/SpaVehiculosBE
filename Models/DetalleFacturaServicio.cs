@@ -9,6 +9,7 @@
 
 namespace SpaVehiculosBE.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -18,8 +19,11 @@ namespace SpaVehiculosBE.Models
         public int IdFactura { get; set; }
         public int IdServicio { get; set; }
         public Nullable<decimal> Subtotal { get; set; }
-    
+        [JsonIgnore]
+
         public virtual Factura Factura { get; set; }
+        [JsonIgnore]
+
         public virtual Servicio Servicio { get; set; }
     }
 }

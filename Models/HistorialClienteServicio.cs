@@ -9,6 +9,7 @@
 
 namespace SpaVehiculosBE.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -18,8 +19,9 @@ namespace SpaVehiculosBE.Models
         public int IdCliente { get; set; }
         public int IdServicio { get; set; }
         public System.DateTime Fecha { get; set; }
-    
+        [JsonIgnore]
         public virtual Cliente Cliente { get; set; }
+        [JsonIgnore]
         public virtual Servicio Servicio { get; set; }
     }
 }

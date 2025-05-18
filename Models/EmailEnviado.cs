@@ -9,6 +9,7 @@
 
 namespace SpaVehiculosBE.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -18,7 +19,8 @@ namespace SpaVehiculosBE.Models
         public int IdFactura { get; set; }
         public string CorreoDestino { get; set; }
         public Nullable<System.DateTime> FechaEnvio { get; set; }
-    
+        [JsonIgnore]
+
         public virtual Factura Factura { get; set; }
     }
 }

@@ -9,6 +9,7 @@
 
 namespace SpaVehiculosBE.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -17,9 +18,9 @@ namespace SpaVehiculosBE.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Producto()
         {
-            this.DetalleFacturaProducto = new HashSet<DetalleFacturaProducto>();
-            this.HistorialClienteProducto = new HashSet<HistorialClienteProducto>();
-            this.SedeProducto = new HashSet<SedeProducto>();
+            this.DetalleFacturaProductoes = new HashSet<DetalleFacturaProducto>();
+            this.HistorialClienteProductoes = new HashSet<HistorialClienteProducto>();
+            this.SedeProductoes = new HashSet<SedeProducto>();
         }
     
         public int IdProducto { get; set; }
@@ -30,11 +31,19 @@ namespace SpaVehiculosBE.Models
         public int IdProveedor { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleFacturaProducto> DetalleFacturaProducto { get; set; }
+        [JsonIgnore]
+
+        public virtual ICollection<DetalleFacturaProducto> DetalleFacturaProductoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HistorialClienteProducto> HistorialClienteProducto { get; set; }
+        [JsonIgnore]
+
+        public virtual ICollection<HistorialClienteProducto> HistorialClienteProductoes { get; set; }
+        [JsonIgnore]
+
         public virtual Proveedor Proveedor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SedeProducto> SedeProducto { get; set; }
+        [JsonIgnore]
+
+        public virtual ICollection<SedeProducto> SedeProductoes { get; set; }
     }
 }

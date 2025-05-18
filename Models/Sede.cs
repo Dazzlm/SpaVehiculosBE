@@ -9,6 +9,7 @@
 
 namespace SpaVehiculosBE.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -17,10 +18,10 @@ namespace SpaVehiculosBE.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Sede()
         {
-            this.Factura = new HashSet<Factura>();
-            this.Reserva = new HashSet<Reserva>();
-            this.SedeProducto = new HashSet<SedeProducto>();
-            this.TurnoEmpleado = new HashSet<TurnoEmpleado>();
+            this.Facturas = new HashSet<Factura>();
+            this.Reservas = new HashSet<Reserva>();
+            this.SedeProductoes = new HashSet<SedeProducto>();
+            this.TurnoEmpleadoes = new HashSet<TurnoEmpleado>();
         }
     
         public int IdSede { get; set; }
@@ -28,15 +29,24 @@ namespace SpaVehiculosBE.Models
         public string Dirección { get; set; }
         public int IdCiudad { get; set; }
         public string Teléfono { get; set; }
-    
+        [JsonIgnore]
+
         public virtual Ciudad Ciudad { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Factura> Factura { get; set; }
+        [JsonIgnore]
+
+        public virtual ICollection<Factura> Facturas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Reserva> Reserva { get; set; }
+        [JsonIgnore]
+
+        public virtual ICollection<Reserva> Reservas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SedeProducto> SedeProducto { get; set; }
+        [JsonIgnore]
+
+        public virtual ICollection<SedeProducto> SedeProductoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TurnoEmpleado> TurnoEmpleado { get; set; }
+        [JsonIgnore]
+
+        public virtual ICollection<TurnoEmpleado> TurnoEmpleadoes { get; set; }
     }
 }

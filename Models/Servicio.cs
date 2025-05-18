@@ -9,6 +9,7 @@
 
 namespace SpaVehiculosBE.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -17,10 +18,10 @@ namespace SpaVehiculosBE.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Servicio()
         {
-            this.DetalleFacturaServicio = new HashSet<DetalleFacturaServicio>();
-            this.EmpleadoServicio = new HashSet<EmpleadoServicio>();
-            this.HistorialClienteServicio = new HashSet<HistorialClienteServicio>();
-            this.Reserva = new HashSet<Reserva>();
+            this.DetalleFacturaServicios = new HashSet<DetalleFacturaServicio>();
+            this.EmpleadoServicios = new HashSet<EmpleadoServicio>();
+            this.HistorialClienteServicios = new HashSet<HistorialClienteServicio>();
+            this.Reservas = new HashSet<Reserva>();
         }
     
         public int IdServicio { get; set; }
@@ -28,14 +29,21 @@ namespace SpaVehiculosBE.Models
         public string Descripción { get; set; }
         public Nullable<decimal> Precio { get; set; }
         public Nullable<int> DuraciónMinutos { get; set; }
-    
+        [JsonIgnore]
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleFacturaServicio> DetalleFacturaServicio { get; set; }
+        public virtual ICollection<DetalleFacturaServicio> DetalleFacturaServicios { get; set; }
+        [JsonIgnore]
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmpleadoServicio> EmpleadoServicio { get; set; }
+        public virtual ICollection<EmpleadoServicio> EmpleadoServicios { get; set; }
+        [JsonIgnore]
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HistorialClienteServicio> HistorialClienteServicio { get; set; }
+        public virtual ICollection<HistorialClienteServicio> HistorialClienteServicios { get; set; }
+        [JsonIgnore]
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Reserva> Reserva { get; set; }
+        public virtual ICollection<Reserva> Reservas { get; set; }
     }
 }

@@ -9,6 +9,7 @@
 
 namespace SpaVehiculosBE.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -18,8 +19,11 @@ namespace SpaVehiculosBE.Models
         public int IdSede { get; set; }
         public int IdProducto { get; set; }
         public int StockDisponible { get; set; }
-    
+        [JsonIgnore]
+
         public virtual Producto Producto { get; set; }
+        [JsonIgnore]
+
         public virtual Sede Sede { get; set; }
     }
 }

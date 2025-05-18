@@ -9,6 +9,7 @@
 
 namespace SpaVehiculosBE.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -17,9 +18,9 @@ namespace SpaVehiculosBE.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Factura()
         {
-            this.DetalleFacturaProducto = new HashSet<DetalleFacturaProducto>();
-            this.DetalleFacturaServicio = new HashSet<DetalleFacturaServicio>();
-            this.EmailEnviado = new HashSet<EmailEnviado>();
+            this.DetalleFacturaProductoes = new HashSet<DetalleFacturaProducto>();
+            this.DetalleFacturaServicios = new HashSet<DetalleFacturaServicio>();
+            this.EmailEnviadoes = new HashSet<EmailEnviado>();
         }
     
         public int IdFactura { get; set; }
@@ -27,14 +28,23 @@ namespace SpaVehiculosBE.Models
         public int IdCliente { get; set; }
         public decimal Total { get; set; }
         public int IdSede { get; set; }
-    
+        [JsonIgnore]
+
         public virtual Cliente Cliente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleFacturaProducto> DetalleFacturaProducto { get; set; }
+        [JsonIgnore]
+
+        public virtual ICollection<DetalleFacturaProducto> DetalleFacturaProductoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleFacturaServicio> DetalleFacturaServicio { get; set; }
+        [JsonIgnore]
+
+        public virtual ICollection<DetalleFacturaServicio> DetalleFacturaServicios { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmailEnviado> EmailEnviado { get; set; }
+        [JsonIgnore]
+
+        public virtual ICollection<EmailEnviado> EmailEnviadoes { get; set; }
+        [JsonIgnore]
+
         public virtual Sede Sede { get; set; }
     }
 }

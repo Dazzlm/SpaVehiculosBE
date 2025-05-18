@@ -9,6 +9,7 @@
 
 namespace SpaVehiculosBE.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -17,13 +18,13 @@ namespace SpaVehiculosBE.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Ciudad()
         {
-            this.Sede = new HashSet<Sede>();
+            this.Sedes = new HashSet<Sede>();
         }
     
         public int IdCiudad { get; set; }
         public string Nombre { get; set; }
-    
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Sede> Sede { get; set; }
+        public virtual ICollection<Sede> Sedes { get; set; }
     }
 }

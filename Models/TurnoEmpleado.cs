@@ -9,6 +9,7 @@
 
 namespace SpaVehiculosBE.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -20,8 +21,11 @@ namespace SpaVehiculosBE.Models
         public Nullable<System.TimeSpan> HoraFin { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
         public int IdSede { get; set; }
-    
+        [JsonIgnore]
+
         public virtual Sede Sede { get; set; }
+        [JsonIgnore]
+
         public virtual Usuario Usuario { get; set; }
     }
 }

@@ -9,6 +9,7 @@
 
 namespace SpaVehiculosBE.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -17,7 +18,7 @@ namespace SpaVehiculosBE.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Proveedor()
         {
-            this.Producto = new HashSet<Producto>();
+            this.Productoes = new HashSet<Producto>();
         }
     
         public int IdProveedor { get; set; }
@@ -25,8 +26,9 @@ namespace SpaVehiculosBE.Models
         public string Contacto { get; set; }
         public string Teléfono { get; set; }
         public string Email { get; set; }
-    
+        [JsonIgnore]
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Producto> Producto { get; set; }
+        public virtual ICollection<Producto> Productoes { get; set; }
     }
 }
