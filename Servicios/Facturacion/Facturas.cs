@@ -62,7 +62,11 @@ namespace SpaVehiculosBE.Servicios
                     detalleServ.IdFactura = factura.IdFactura;
                 }
             }
-            return detalleFactura.AddDetalle(detalleProds,detalleServs);
+
+            Notificacion notificacion = new Notificacion();
+            string result = detalleFactura.AddDetalle(detalleProds, detalleServs);
+            notificacion.EnviarFactura(factura.IdFactura);
+            return result;
 
         }
 

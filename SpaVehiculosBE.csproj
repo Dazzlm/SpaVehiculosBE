@@ -175,6 +175,7 @@
     <Compile Include="Controllers\FacturasController.cs" />
     <Compile Include="Controllers\GestorPDFController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NotificacionController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -260,6 +261,7 @@
     <Compile Include="Servicios\Facturacion\DetalleFactura.cs" />
     <Compile Include="Servicios\Facturacion\Facturas.cs" />
     <Compile Include="Servicios\GestorFacturaPDF.cs" />
+    <Compile Include="Servicios\Notificacion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -348,6 +350,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="FacturasPDF\" />
+    <Folder Include="Views\Notificacion\" />
     <Folder Include="Views\Usuarios\" />
   </ItemGroup>
   <ItemGroup>
