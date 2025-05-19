@@ -1,0 +1,85 @@
+﻿<html>
+<head>
+	<meta charset='utf-8' />
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			font-size: 12px;
+			margin: 20px;
+			color: #333;
+		}
+
+		.header {
+			text-align: center;
+			padding-bottom: 20px;
+			border-bottom: 2px solid #000;
+		}
+
+			.header h1 {
+				margin: 0;
+				font-size: 26px;
+				color: #005a9c;
+			}
+
+		.info {
+			margin-top: 20px;
+		}
+
+			.info p {
+				margin: 4px 0;
+			}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 15px;
+		}
+
+		table, th, td {
+			border: 1px solid #ccc;
+		}
+
+		th {
+			background-color: #f0f0f0;
+		}
+
+		th, td {
+			padding: 8px;
+			text-align: left;
+		}
+
+		.total {
+			margin-top: 20px;
+			text-align: right;
+			font-size: 16px;
+			font-weight: bold;
+		}
+
+		.section-title {
+			margin-top: 30px;
+			font-size: 16px;
+			color: #005a9c;
+			border-bottom: 1px solid #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div class='header'>
+		<h1>Spa Vehicular</h1>
+		<p>Factura electrónica</p>
+	</div>
+
+	<div class='info'>
+		<p><strong>Factura #:</strong> {{IdFactura}}</p>
+		<p><strong>Fecha:</strong> {{Fecha}}</p>
+		<p><strong>Cliente:</strong> {{Cliente}}</p>
+		<p><strong>Sede:</strong> {{Sede}}</p>
+	</div>
+
+	{{TablaProductos}}
+
+	{{TablaServicios}}
+
+	<div class='total'>Total a pagar: ${{Total}}</div>
+</body>
+</html>
