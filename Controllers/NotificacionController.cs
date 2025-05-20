@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace SpaVehiculosBE.Controllers
 {
-    [RoutePrefix("api/Notifiacion")]
+    [RoutePrefix("api/Notificacion")]
     public class NotificacionController : ApiController
     {
         [HttpGet]
