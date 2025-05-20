@@ -117,7 +117,7 @@ namespace SpaVehiculosBE.Servicios
 
             plantilla = plantilla.Replace("{{IdFactura}}", factura.IdFactura.ToString())
                                  .Replace("{{Fecha}}", factura.Fecha.ToShortDateString())
-                                 .Replace("{{Cliente}}", factura.Cliente?.Nombre ?? "N/A")
+                                 .Replace("{{Cliente}}", factura.Cliente?.Nombre+" "+factura.Cliente.Apellidos ?? "N/A")
                                  .Replace("{{Sede}}", factura.Sede?.Nombre ?? "N/A")
                                  .Replace("{{TablaProductos}}", tablaProductos)
                                  .Replace("{{TablaServicios}}", tablaServicios)
