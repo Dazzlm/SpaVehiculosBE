@@ -29,22 +29,17 @@ namespace SpaVehiculosBE.Models
         public decimal Total { get; set; }
         public int IdSede { get; set; }
         [JsonIgnore]
-
         public virtual Cliente Cliente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
-
         public virtual ICollection<DetalleFacturaProducto> DetalleFacturaProductoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
-
         public virtual ICollection<DetalleFacturaServicio> DetalleFacturaServicios { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
-
         public virtual ICollection<EmailEnviado> EmailEnviadoes { get; set; }
         [JsonIgnore]
-
         public virtual Sede Sede { get; set; }
     }
 }

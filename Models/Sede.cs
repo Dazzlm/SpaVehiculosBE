@@ -30,23 +30,18 @@ namespace SpaVehiculosBE.Models
         public int IdCiudad { get; set; }
         public string Teléfono { get; set; }
         [JsonIgnore]
-
         public virtual Ciudad Ciudad { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
-
         public virtual ICollection<Factura> Facturas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
-
         public virtual ICollection<Reserva> Reservas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
-
         public virtual ICollection<SedeProducto> SedeProductoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
-
         public virtual ICollection<TurnoEmpleado> TurnoEmpleadoes { get; set; }
     }
 }

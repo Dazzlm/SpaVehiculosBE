@@ -9,6 +9,7 @@
 
 namespace SpaVehiculosBE.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -19,8 +20,11 @@ namespace SpaVehiculosBE.Models
         public string Apellidos { get; set; }
         public string Email { get; set; }
         public string Teléfono { get; set; }
+        public string Cedula { get; set; }
+        public Nullable<System.DateTime> FechaNacimiento { get; set; }
+        public string Cargo { get; set; }
         public int IdUsuario { get; set; }
-    
+        [JsonIgnore]
         public virtual Usuario Usuario { get; set; }
     }
 }

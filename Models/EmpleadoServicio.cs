@@ -19,10 +19,8 @@ namespace SpaVehiculosBE.Models
         public int IdEmpleado { get; set; }
         public int IdServicio { get; set; }
         [JsonIgnore]
-
         public virtual Usuario Usuario { get; set; }
         [JsonIgnore]
-
         public virtual Servicio Servicio { get; set; }
     }
 }

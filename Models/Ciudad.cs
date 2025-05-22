@@ -23,8 +23,9 @@ namespace SpaVehiculosBE.Models
     
         public int IdCiudad { get; set; }
         public string Nombre { get; set; }
-        [JsonIgnore]
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<Sede> Sedes { get; set; }
     }
 }

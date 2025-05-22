@@ -22,13 +22,10 @@ namespace SpaVehiculosBE.Models
         public int IdSede { get; set; }
         public string EstadoReserva { get; set; }
         [JsonIgnore]
-
         public virtual Cliente Cliente { get; set; }
         [JsonIgnore]
-
         public virtual Sede Sede { get; set; }
         [JsonIgnore]
-
         public virtual Servicio Servicio { get; set; }
     }
 }

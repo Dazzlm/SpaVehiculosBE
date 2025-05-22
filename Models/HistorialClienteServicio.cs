@@ -20,6 +20,7 @@ namespace SpaVehiculosBE.Models
         public int IdServicio { get; set; }
         public System.DateTime Fecha { get; set; }
         [JsonIgnore]
+
         public virtual Cliente Cliente { get; set; }
         [JsonIgnore]
         public virtual Servicio Servicio { get; set; }
