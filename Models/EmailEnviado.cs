@@ -20,7 +20,6 @@ namespace SpaVehiculosBE.Models
         public string CorreoDestino { get; set; }
         public Nullable<System.DateTime> FechaEnvio { get; set; }
         [JsonIgnore]
-
         public virtual Factura Factura { get; set; }
     }
 }

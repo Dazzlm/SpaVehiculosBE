@@ -20,7 +20,6 @@ namespace SpaVehiculosBE.Models
         public Nullable<System.DateTime> Fecha { get; set; }
         public string DescripciónActividad { get; set; }
         [JsonIgnore]
-
         public virtual Usuario Usuario { get; set; }
     }
 }

@@ -20,10 +20,8 @@ namespace SpaVehiculosBE.Models
         public int IdProducto { get; set; }
         public int StockDisponible { get; set; }
         [JsonIgnore]
-
         public virtual Producto Producto { get; set; }
         [JsonIgnore]
-
         public virtual Sede Sede { get; set; }
     }
 }
