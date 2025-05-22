@@ -16,7 +16,7 @@ namespace SpaVehiculosBE.Controllers
 
         [HttpGet]
         [Route("ConsultarPorID")]
-        public IHttpActionResult ConsultarPorID(int idServicio) // Fixed method signature
+        public IHttpActionResult ConsultarPorID(int idServicio) 
         {
             var servicio = gestionServicios.BuscarServicioID(idServicio);
             if (servicio == null)
