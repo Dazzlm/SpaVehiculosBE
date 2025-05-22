@@ -201,6 +201,7 @@
     <Compile Include="Controllers\GestorPDFController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NotificacionController.cs" />
+    <Compile Include="Controllers\ReservasController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -290,6 +291,7 @@
     <Compile Include="Servicios\GestionServicios.cs" />
     <Compile Include="Servicios\GestorFacturaPDF.cs" />
     <Compile Include="Servicios\Notificacion.cs" />
+    <Compile Include="Servicios\Reservas.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

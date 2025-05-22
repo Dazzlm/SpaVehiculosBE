@@ -16,12 +16,14 @@ namespace SpaVehiculosBE.Models
     public partial class Reserva
     {
         public int IdReserva { get; set; }
-        public System.DateTime FechaHora { get; set; }
         public int IdCliente { get; set; }
         public int IdServicio { get; set; }
         public int IdSede { get; set; }
-        public string EstadoReserva { get; set; }
+        public Nullable<System.DateTime> Fecha { get; set; }
+        public Nullable<System.TimeSpan> HoraInicio { get; set; }
+        public Nullable<System.TimeSpan> HoraFin { get; set; }
         [JsonIgnore]
+
         public virtual Cliente Cliente { get; set; }
         [JsonIgnore]
         public virtual Sede Sede { get; set; }

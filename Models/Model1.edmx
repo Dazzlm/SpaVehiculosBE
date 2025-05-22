@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SpaVehicularDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SpaVehicularDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Administrador">
           <Key>
             <PropertyRef Name="IdAdmin" />
@@ -138,11 +138,12 @@
             <PropertyRef Name="IdReserva" />
           </Key>
           <Property Name="IdReserva" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FechaHora" Type="datetime" Nullable="false" />
           <Property Name="IdCliente" Type="int" Nullable="false" />
           <Property Name="IdServicio" Type="int" Nullable="false" />
           <Property Name="IdSede" Type="int" Nullable="false" />
-          <Property Name="EstadoReserva" Type="nvarchar" MaxLength="20" />
+          <Property Name="Fecha" Type="date" />
+          <Property Name="HoraInicio" Type="time" Precision="7" />
+          <Property Name="HoraFin" Type="time" Precision="7" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -639,8 +640,7 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SpaVehicularDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -806,14 +806,15 @@
             <PropertyRef Name="IdReserva" />
           </Key>
           <Property Name="IdReserva" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FechaHora" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IdCliente" Type="Int32" Nullable="false" />
           <Property Name="IdServicio" Type="Int32" Nullable="false" />
           <Property Name="IdSede" Type="Int32" Nullable="false" />
-          <Property Name="EstadoReserva" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Cliente" Relationship="Self.FK__Reserva__IdClien__5441852A" FromRole="Reserva" ToRole="Cliente" />
           <NavigationProperty Name="Sede" Relationship="Self.FK__Reserva__IdSede__5629CD9C" FromRole="Reserva" ToRole="Sede" />
           <NavigationProperty Name="Servicio" Relationship="Self.FK__Reserva__IdServi__5535A963" FromRole="Reserva" ToRole="Servicio" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
+          <Property Name="HoraInicio" Type="Time" Precision="7" />
+          <Property Name="HoraFin" Type="Time" Precision="7" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -1480,12 +1481,13 @@
           <EntitySetMapping Name="Reservas">
             <EntityTypeMapping TypeName="SpaVehicularDBModel.Reserva">
               <MappingFragment StoreEntitySet="Reserva">
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="IdReserva" ColumnName="IdReserva" />
-                <ScalarProperty Name="FechaHora" ColumnName="FechaHora" />
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
                 <ScalarProperty Name="IdServicio" ColumnName="IdServicio" />
                 <ScalarProperty Name="IdSede" ColumnName="IdSede" />
-                <ScalarProperty Name="EstadoReserva" ColumnName="EstadoReserva" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
