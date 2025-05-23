@@ -9,7 +9,6 @@
 
 namespace SpaVehiculosBE.Models
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -27,26 +26,23 @@ namespace SpaVehiculosBE.Models
     
         public int IdUsuario { get; set; }
         public string NombreUsuario { get; set; }
-        public string ContraseñaHash { get; set; }
+    
         public int IdRol { get; set; }
         public bool Estado { get; set; }
+        public string Clave { get; set; }
+        public string salt { get; set; }
+        public string DocumentoUsuario { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
         public virtual ICollection<Administrador> Administradors { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
         public virtual ICollection<Cliente> Clientes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
         public virtual ICollection<EmpleadoServicio> EmpleadoServicios { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
         public virtual ICollection<LogActividad> LogActividads { get; set; }
-        [JsonIgnore]
         public virtual Rol Rol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
         public virtual ICollection<TurnoEmpleado> TurnoEmpleadoes { get; set; }
     }
 }
