@@ -15,6 +15,8 @@ namespace SpaVehiculosBE.Controllers
     public class GestorPDFController : ApiController
     {
 
+        private readonly ValidationController validation = new ValidationController();
+
         [HttpGet]
         [Route("descargar")]
         public HttpResponseMessage DescargarFactura(int id)
@@ -26,7 +28,12 @@ namespace SpaVehiculosBE.Controllers
             {
                 return Request.CreateResponse(
                     resultado.Mensaje == "Factura no encontrada" ? HttpStatusCode.NotFound : HttpStatusCode.InternalServerError,
-                    resultado.Mensaje
+                    new
+                    {
+                        success = false,
+                        message = resultado.Mensaje
+                    }
+
                 );
             }
 
@@ -47,20 +54,8 @@ namespace SpaVehiculosBE.Controllers
         {
             GestorFacturaPDF pdfService = new GestorFacturaPDF();
             string result = pdfService.EliminarPDF(id);
-            if (result.Contains("Error404"))
-            {
-                return Content(HttpStatusCode.NotFound, result);
-            }
-
-            if (result.Contains("Error"))
-            {
-                return Content(HttpStatusCode.InternalServerError, result);
-            }
-
-            return Ok(result);
+            return validation.ValidationResult(result);
 
         }
-
-
     }
 }

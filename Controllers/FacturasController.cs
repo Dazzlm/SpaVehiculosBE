@@ -2,25 +2,30 @@
 using SpaVehiculosBE.Servicios;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Results;
 using static SpaVehiculosBE.Servicios.Facturas;
 
 namespace SpaVehiculosBE.Controllers
 {
+    
     [RoutePrefix("api/Facturas")]
     public class FacturasController : ApiController
     {
+
+        private readonly ValidationController validation = new ValidationController();
+
         [HttpGet]
         [Route("ConsultarFacturas")]
         public IHttpActionResult GetFacturas()
         {
             Facturas facturas = new Facturas();
             List<Factura> listaFacturas = facturas.GetFacturas();
-            return Ok(listaFacturas);
+            return Ok(new
+            {
+                success = true,
+                data = listaFacturas
+            });
         }
 
         [HttpGet]
@@ -31,9 +36,16 @@ namespace SpaVehiculosBE.Controllers
             FacturaCompletedDTO factura = facturas.GetFactura(id);
             if (factura == null)
             {
-              return Content(HttpStatusCode.NotFound, "Factura no encontrada");
+              return Content(HttpStatusCode.NotFound, new {
+                  success = false,
+                  message = "Factura no encontrada"
+              });
             }
-            return Ok(factura);
+            return Ok(new
+            {
+                success = true,
+                data = factura
+            });
         }
 
         [HttpPost]
@@ -42,11 +54,15 @@ namespace SpaVehiculosBE.Controllers
         {
             if (factura == null)
             {
-                return BadRequest("Formato invalido");
+                return Content(HttpStatusCode.NotFound, new
+                {
+                    success = false,
+                    message = "formato invalido"
+                });
             }
             Facturas facturas = new Facturas();
             string result = facturas.AddFactura(factura.Factura, factura.Productos, factura.Servicios);
-            return Ok(result);
+            return validation.ValidationResult(result);
         }
 
         [HttpDelete]
@@ -55,20 +71,7 @@ namespace SpaVehiculosBE.Controllers
         {
             Facturas facturas = new Facturas();
             string result = facturas.DeleteFactura(id);
-
-            if (result.Contains("Error404"))
-            {
-                return Content(HttpStatusCode.NotFound, "Factura no encontrada");
-            }
-
-            if (result.Contains("Error"))
-            {
-                return BadRequest(result);
-            }
-
-            return Ok(result); ;
-
+            return validation.ValidationResult(result);
         }
-
     }
 }
