@@ -1,5 +1,6 @@
 using SpaVehiculosBE.Models;
 using System;
+using System.Linq;
 
 namespace SpaVehiculosBE.Servicios
 {
@@ -9,15 +10,34 @@ namespace SpaVehiculosBE.Servicios
 
         public Usuario usuario { get; set; }
 
-        public string CrearUsuario(int idRol)
+        public string CrearUsuario(Usuario usuario, int idRol)
         {
             try
             {
+                var rolExiste = db.Rols.Any(r => r.IdRol == idRol);
+                if (!rolExiste)
+                {
+                    return "El rol especificado no existe.";
+                }
                 Cypher cypher = new Cypher();
-                //cyper.Password = usuario.Contraseña;
-                db.Usuarios.Add(usuario);
-                db.SaveChanges();
-                return "Usuario creado con exito";
+                cypher.Password = usuario.Clave;
+
+                if (cypher.CifrarClave())
+                {
+                    usuario.Clave = cypher.PasswordCifrado;
+                    usuario.salt = cypher.Salt;
+                    usuario.Estado = true;
+                    usuario.IdRol = idRol;
+
+                    db.Usuarios.Add(usuario);
+                    db.SaveChanges();
+
+                    return "Usuario creado con éxito";
+                }
+                else
+                {
+                    return "Error al cifrar la clave del usuario.";
+                }
             }
             catch (Exception ex)
             {
