@@ -204,7 +204,9 @@
     <Compile Include="Controllers\GestorPDFController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NotificacionController.cs" />
+    <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\ReservasController.cs" />
+    <Compile Include="Controllers\SedeProductoController .cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\ValidationController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -290,6 +292,10 @@
     <Compile Include="Servicios\GestionClientes.cs" />
     <Compile Include="Servicios\GestionCiudades.cs" />
     <Compile Include="Servicios\GestionSedes.cs" />
+    <Compile Include="Servicios\GestorImagen.cs" />
+    <Compile Include="Servicios\GestorProductoSede.cs" />
+    <Compile Include="Servicios\RespuestaHelper.cs" />
+    <Compile Include="Servicios\Seguridad\GestorProductos.cs" />
     <Compile Include="Servicios\Usuarios.cs" />
     <Compile Include="Servicios\Seguridad\Cypher.cs" />
     <Compile Include="Servicios\Facturacion\DetalleFactura.cs" />

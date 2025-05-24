@@ -15,7 +15,7 @@ namespace SpaVehiculosBE.Controllers
     public class GestorPDFController : ApiController
     {
 
-        private readonly ValidationController validation = new ValidationController();
+        private readonly RespuestaHelper validation = new RespuestaHelper();
 
         [HttpGet]
         [Route("descargar")]
@@ -54,7 +54,7 @@ namespace SpaVehiculosBE.Controllers
         {
             GestorFacturaPDF pdfService = new GestorFacturaPDF();
             string result = pdfService.EliminarPDF(id);
-            return validation.ValidationResult(result);
+            return validation.FormatearRespuesta(this, result);
 
         }
     }
