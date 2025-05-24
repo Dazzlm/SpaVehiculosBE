@@ -45,6 +45,6 @@ namespace SpaVehiculosBE.Models
         public virtual DbSet<Servicio> Servicios { get; set; }
         public virtual DbSet<TurnoEmpleado> TurnoEmpleadoes { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+       
     }
 }

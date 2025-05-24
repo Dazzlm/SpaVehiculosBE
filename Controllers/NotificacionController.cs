@@ -12,7 +12,7 @@ namespace SpaVehiculosBE.Controllers
     public class NotificacionController : ApiController
     {
 
-        private readonly ValidationController validation = new ValidationController();
+        private readonly RespuestaHelper validation = new RespuestaHelper();
 
         [HttpGet]
         [Route("EnviarNotificacion")]
@@ -20,7 +20,7 @@ namespace SpaVehiculosBE.Controllers
         {
             Notificacion notificacion = new Notificacion();
             string result = notificacion.EnviarFactura(id);
-            return validation.ValidationResult(result);
+            return validation.FormatearRespuesta(this, result);
         }
 
     }
