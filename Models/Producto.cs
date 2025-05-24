@@ -27,11 +27,11 @@ namespace SpaVehiculosBE.Models
         public string Nombre { get; set; }
         public string Descripción { get; set; }
         public Nullable<decimal> Precio { get; set; }
-        public Nullable<int> Stock { get; set; }
         public int IdProveedor { get; set; }
-        [JsonIgnore]
-
+        public string Imagen { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<DetalleFacturaProducto> DetalleFacturaProductoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]

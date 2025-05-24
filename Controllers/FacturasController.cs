@@ -8,12 +8,11 @@ using static SpaVehiculosBE.Servicios.Facturas;
 
 namespace SpaVehiculosBE.Controllers
 {
-    
     [RoutePrefix("api/Facturas")]
     public class FacturasController : ApiController
     {
 
-        private readonly ValidationController validation = new ValidationController();
+        private readonly RespuestaHelper validation = new RespuestaHelper();
 
         [HttpGet]
         [Route("ConsultarFacturas")]
@@ -36,10 +35,11 @@ namespace SpaVehiculosBE.Controllers
             FacturaCompletedDTO factura = facturas.GetFactura(id);
             if (factura == null)
             {
-              return Content(HttpStatusCode.NotFound, new {
-                  success = false,
-                  message = "Factura no encontrada"
-              });
+                return Content(HttpStatusCode.NotFound, new
+                {
+                    success = false,
+                    message = "Factura no encontrada"
+                });
             }
             return Ok(new
             {
@@ -62,16 +62,7 @@ namespace SpaVehiculosBE.Controllers
             }
             Facturas facturas = new Facturas();
             string result = facturas.AddFactura(factura.Factura, factura.Productos, factura.Servicios);
-            return validation.ValidationResult(result);
-        }
-
-        [HttpDelete]
-        [Route("Eliminar")]
-        public IHttpActionResult DeleteFactura(int id)
-        {
-            Facturas facturas = new Facturas();
-            string result = facturas.DeleteFactura(id);
-            return validation.ValidationResult(result);
+            return validation.FormatearRespuesta(this, result);
         }
     }
 }
