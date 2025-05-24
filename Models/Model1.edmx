@@ -120,8 +120,8 @@
           <Property Name="Nombre" Type="nvarchar" MaxLength="100" />
           <Property Name="Descripción" Type="nvarchar" MaxLength="255" />
           <Property Name="Precio" Type="decimal" Precision="10" Scale="2" />
-          <Property Name="Stock" Type="int" />
           <Property Name="IdProveedor" Type="int" Nullable="false" />
+          <Property Name="Imagen" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="Proveedor">
           <Key>
@@ -180,6 +180,17 @@
           <Property Name="Descripción" Type="nvarchar" MaxLength="255" />
           <Property Name="Precio" Type="decimal" Precision="10" Scale="2" />
           <Property Name="DuraciónMinutos" Type="int" />
+          <Property Name="Imagen" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TurnoEmpleado">
           <Key>
@@ -535,6 +546,7 @@
           <EntitySet Name="Sede" EntityType="Self.Sede" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SedeProducto" EntityType="Self.SedeProducto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Servicio" EntityType="Self.Servicio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TurnoEmpleado" EntityType="Self.TurnoEmpleado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Administr__IdUsu__45F365D3" Association="Self.FK__Administr__IdUsu__45F365D3">
@@ -785,12 +797,12 @@
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Descripción" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Precio" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="Stock" Type="Int32" />
           <Property Name="IdProveedor" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DetalleFacturaProductoes" Relationship="Self.FK__DetalleFa__IdPro__5EBF139D" FromRole="Producto" ToRole="DetalleFacturaProducto" />
           <NavigationProperty Name="HistorialClienteProductoes" Relationship="Self.FK__Historial__IdPro__6A30C649" FromRole="Producto" ToRole="HistorialClienteProducto" />
           <NavigationProperty Name="Proveedor" Relationship="Self.FK__Producto__IdProv__4F7CD00D" FromRole="Producto" ToRole="Proveedor" />
           <NavigationProperty Name="SedeProductoes" Relationship="Self.FK__SedeProdu__IdPro__6E01572D" FromRole="Producto" ToRole="SedeProducto" />
+          <Property Name="Imagen" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Proveedor">
           <Key>
@@ -865,6 +877,7 @@
           <NavigationProperty Name="EmpleadoServicios" Relationship="Self.FK__EmpleadoS__IdSer__7D439ABD" FromRole="Servicio" ToRole="EmpleadoServicio" />
           <NavigationProperty Name="HistorialClienteServicios" Relationship="Self.FK__Historial__IdSer__66603565" FromRole="Servicio" ToRole="HistorialClienteServicio" />
           <NavigationProperty Name="Reservas" Relationship="Self.FK__Reserva__IdServi__5535A963" FromRole="Servicio" ToRole="Reserva" />
+          <Property Name="Imagen" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TurnoEmpleado">
           <Key>
@@ -1334,7 +1347,18 @@
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="TurnoEmpleado" EntitySet="TurnoEmpleadoes" />
           </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="SpaVehicularDBModel.sysdiagram" />
         </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1462,11 +1486,11 @@
           <EntitySetMapping Name="Productoes">
             <EntityTypeMapping TypeName="SpaVehicularDBModel.Producto">
               <MappingFragment StoreEntitySet="Producto">
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
                 <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Descripción" ColumnName="Descripción" />
                 <ScalarProperty Name="Precio" ColumnName="Precio" />
-                <ScalarProperty Name="Stock" ColumnName="Stock" />
                 <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1527,6 +1551,7 @@
           <EntitySetMapping Name="Servicios">
             <EntityTypeMapping TypeName="SpaVehicularDBModel.Servicio">
               <MappingFragment StoreEntitySet="Servicio">
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
                 <ScalarProperty Name="IdServicio" ColumnName="IdServicio" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Descripción" ColumnName="Descripción" />
@@ -1557,6 +1582,17 @@
                 <ScalarProperty Name="NombreUsuario" ColumnName="NombreUsuario" />
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SpaVehicularDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

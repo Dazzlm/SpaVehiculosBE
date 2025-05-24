@@ -29,8 +29,8 @@ namespace SpaVehiculosBE.Models
         public string Descripción { get; set; }
         public Nullable<decimal> Precio { get; set; }
         public Nullable<int> DuraciónMinutos { get; set; }
-       
-
+        public string Imagen { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
         public virtual ICollection<DetalleFacturaServicio> DetalleFacturaServicios { get; set; }
