@@ -44,13 +44,49 @@ namespace SpaVehiculosBE.Servicios.Facturacion
         {
             try {
 
-                if (detallesFacturaProducto == null) {
+                if (detallesFacturaProducto == null ) {
                     return "no hay detalles de Productos para agregar";
                 }
 
+                if (detallesFacturaProducto.Count < 1)
+                {
+                    return "no hay detalles de Productos para agregar";
+                }
+
+                int idFactura = detallesFacturaProducto[0].IdFactura;
+                // Verificar si la factura existe
+                Factura factura = db.Facturas.FirstOrDefault(d => d.IdFactura == idFactura);
+                if (factura == null)
+                {
+                    return "Error404: Factura no encontrado";
+                }
+
+                // Verificar si la sede existe
+                Sede sede = db.Sedes.FirstOrDefault(d => d.IdSede == factura.IdSede);
+                if (sede == null)
+                {
+                    return "Error404: Sede no encontrado";
+                }
+
+
                 foreach (DetalleFacturaProducto detalle in detallesFacturaProducto)
                 {
+                    SedeProducto sedeProducto = db.SedeProductoes.FirstOrDefault(d => d.IdSede == sede.IdSede &&  d.IdProducto == detalle.IdProducto );
+
+
+                    if (sedeProducto == null)
+                    {
+                        return "Error404:  Producto no encontrado en la sede";
+                    }
+
+                    if(sedeProducto.StockDisponible  <= detalle.Cantidad)
+                    {
+                        return "Error: Stock no disponible en la sede para el producto id: "+detalle.IdProducto;
+                    }
+                    sedeProducto.StockDisponible -= detalle.Cantidad;
+
                     db.DetalleFacturaProductoes.Add(detalle);
+                    
                 }
                 db.SaveChanges();
             }
@@ -102,8 +138,24 @@ namespace SpaVehiculosBE.Servicios.Facturacion
                     return "no hay detalles de Productos para eliminar";
                 }
 
+                Sede sede = db.Sedes.FirstOrDefault(d => d.IdSede == factura.IdSede);
+                if (sede == null)
+                {
+                    return "Error404: Sede no encontrado";
+                }
+
                 foreach (DetalleFacturaProducto detalle in detallesFacturaProducto)
                 {
+
+                    SedeProducto sedeProducto = db.SedeProductoes.FirstOrDefault(d => d.IdSede == sede.IdSede && d.IdProducto == detalle.IdProducto);
+
+                    if (sedeProducto == null)
+                    {
+                        return "Error404:  Producto no encontrado en la sede";
+                    }
+
+                    sedeProducto.StockDisponible += detalle.Cantidad;
+
                     db.DetalleFacturaProductoes.Remove(detalle);
                 }
                 db.SaveChanges();
