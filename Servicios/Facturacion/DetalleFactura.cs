@@ -79,7 +79,7 @@ namespace SpaVehiculosBE.Servicios.Facturacion
                         return "Error404:  Producto no encontrado en la sede";
                     }
 
-                    if(sedeProducto.StockDisponible  <= detalle.Cantidad)
+                    if(sedeProducto.StockDisponible  < detalle.Cantidad)
                     {
                         return "Error: Stock no disponible en la sede para el producto id: "+detalle.IdProducto;
                     }

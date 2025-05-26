@@ -56,6 +56,18 @@ namespace ServicesClass.Clases
         {
             return dbSuper.Clientes.FirstOrDefault(c => c.IdCliente == idCliente);
         }
+
+        public Cliente ConsultarXCC(string cedula)
+        {
+            Usuario usuario = dbSuper.Usuarios.FirstOrDefault(u => u.DocumentoUsuario == cedula);
+            if (usuario == null)
+            {
+                return null;
+            }
+
+            return dbSuper.Clientes.FirstOrDefault(c => c.IdUsuario == usuario.IdUsuario);
+        }
+
         public string EliminarXId(int idCliente)
         {
             try

@@ -1,8 +1,10 @@
 ﻿using SpaVehiculosBE.Models;
 using SpaVehiculosBE.Servicios;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
+using static SpaVehiculosBE.Servicios.GestorProductos;
 
 namespace SpaVehiculosBE.Controllers
 {
@@ -57,6 +59,35 @@ namespace SpaVehiculosBE.Controllers
                 data = productos
             });
         }
+
+        [HttpGet]
+        [Route("ObtenerConStockPorSede")]
+        public IHttpActionResult ObtenerConStockPorSede(int idSede)
+        {
+            try
+            {
+                List<ProductoConStockDTO> productosConStock = _gestor.ObtenerConStockPorSede(idSede);
+
+                if (productosConStock == null )
+                {
+                    return Content(HttpStatusCode.NotFound, new {
+                        success = false,
+                        message = "No se encontraron productos con stock para la sede especificada."
+                    } );
+                }
+
+                return Ok(new
+                {
+                    success = true,
+                    data = productosConStock
+                });
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
 
         [HttpPost]
         [Route("Crear")]

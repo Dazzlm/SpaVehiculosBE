@@ -24,6 +24,16 @@ namespace ServicesClass.Clases
             return gestion.Consultar(IdCliente);
         }
 
+        [HttpGet]
+
+        [Route("ConsultarXCC")]
+        public Cliente ConsultarXCC(string CC)
+        {
+            GestionClientes gestion = new GestionClientes();
+            return gestion.ConsultarXCC(CC);
+        }
+
+
         [HttpPost]
         [Route("Insertar")]
         public string Insertar([FromBody] Cliente cliente)

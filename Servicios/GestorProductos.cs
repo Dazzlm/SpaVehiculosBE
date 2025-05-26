@@ -11,6 +11,17 @@ namespace SpaVehiculosBE.Servicios
     public class GestorProductos
     {
 
+        public class ProductoConStockDTO
+        {
+            public int IdProducto { get; set; }
+            public string Nombre { get; set; }
+            public string Descripción { get; set; }
+            public Nullable<decimal> Precio { get; set; }
+            public int IdProveedor { get; set; }
+            public string Imagen { get; set; }
+            public int Stock { get; set; }
+        }
+
         private readonly SpaVehicularDBEntities _dbContext = new SpaVehicularDBEntities();
         public List<Producto> ObtenerTodos()
         {
@@ -21,6 +32,35 @@ namespace SpaVehiculosBE.Servicios
         public Producto ObtenerPorId(int id)
         {
             return _dbContext.Productoes.FirstOrDefault(p => p.IdProducto == id);
+        }
+
+        public List<ProductoConStockDTO> ObtenerConStockPorSede(int idSede)
+        {
+
+
+            List<SedeProducto> stockPorSede = _dbContext.SedeProductoes
+            .Where(s => s.IdSede == idSede && s.StockDisponible != 0)
+            .ToList();
+
+            List<int> productoIds = stockPorSede.Select(s => s.IdProducto).Distinct().ToList();
+
+            List<Producto> productos = _dbContext.Productoes
+                .Where(p => productoIds.Contains(p.IdProducto))
+                .ToList();
+
+            List<ProductoConStockDTO> resultado = productos.Select(p => new ProductoConStockDTO
+            {
+                IdProducto = p.IdProducto,
+                Nombre = p.Nombre,
+                Precio = p.Precio,
+                Descripción = p.Descripción,
+                IdProveedor = p.IdProveedor,
+                Imagen = p.Imagen,
+                Stock = stockPorSede.FirstOrDefault(s => s.IdProducto == p.IdProducto)?.StockDisponible ?? 0
+            }).ToList();
+
+            return resultado;
+
         }
 
         public List<Producto> ObtenerPorSede(int idSede)
