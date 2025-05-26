@@ -31,6 +31,8 @@ namespace SpaVehiculosBE.Models
         public string Teléfono { get; set; }
         public string Dirección { get; set; }
         public int IdUsuario { get; set; }
+        public string Imagen { get; set; }
+
         [JsonIgnore]
         public virtual Usuario Usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
