@@ -87,5 +87,53 @@ namespace ServicesClass.Clases
                 return "Error al eliminar el cliente: " + ex.Message;
             }
         }
+        public string GrabarImagenCliente(int idCliente, List<string> imagenes)
+        {
+            try
+            {
+                var cliente = dbSuper.Clientes.FirstOrDefault(c => c.IdCliente == idCliente);
+                if (cliente == null)
+                {
+                    return "No se encontró el cliente con Id " + idCliente;
+                }
+
+                // Solo guardamos una imagen (la primera), puedes adaptarlo si deseas múltiples.
+                cliente.Imagen = imagenes.FirstOrDefault();
+                dbSuper.SaveChanges();
+
+                return "Imagen guardada correctamente para el cliente.";
+            }
+            catch (Exception ex)
+            {
+                return "Error al guardar la imagen: " + ex.Message;
+            }
+        }
+        public string EliminarImagenCliente(string nombreArchivo)
+        {
+            try
+            {
+                var cliente = dbSuper.Clientes.FirstOrDefault(c => c.Imagen == nombreArchivo);
+                if (cliente == null)
+                {
+                    return "No se encontró un cliente con esa imagen.";
+                }
+
+                cliente.Imagen = null;
+                dbSuper.SaveChanges();
+
+                return "Imagen eliminada correctamente de la base de datos.";
+            }
+            catch (Exception ex)
+            {
+                return "Error al eliminar la imagen: " + ex.Message;
+            }
+        }
+        public string ObtenerImagenPorCliente(int idCliente)
+        {
+            var cliente = dbSuper.Clientes.FirstOrDefault(c => c.IdCliente == idCliente);
+            if (cliente == null)
+                return null;
+            return cliente.Imagen;
+        }
     }
 }

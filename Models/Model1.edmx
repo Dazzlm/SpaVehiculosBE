@@ -37,6 +37,7 @@
           <Property Name="Teléfono" Type="nvarchar" MaxLength="20" />
           <Property Name="Dirección" Type="nvarchar" MaxLength="255" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="Imagen" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="DetalleFacturaProducto">
           <Key>
@@ -697,6 +698,7 @@
           <NavigationProperty Name="HistorialClienteServicios" Relationship="Self.FK__Historial__IdCli__656C112C" FromRole="Cliente" ToRole="HistorialClienteServicio" />
           <NavigationProperty Name="HistorialClienteProductoes" Relationship="Self.FK__Historial__IdCli__693CA210" FromRole="Cliente" ToRole="HistorialClienteProducto" />
           <NavigationProperty Name="Reservas" Relationship="Self.FK__Reserva__IdClien__5441852A" FromRole="Cliente" ToRole="Reserva" />
+          <Property Name="Imagen" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DetalleFacturaProducto">
           <Key>
@@ -1391,6 +1393,7 @@
           <EntitySetMapping Name="Clientes">
             <EntityTypeMapping TypeName="SpaVehicularDBModel.Cliente">
               <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
