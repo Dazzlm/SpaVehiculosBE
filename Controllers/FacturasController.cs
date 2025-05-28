@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
+using System.Web.UI.WebControls;
 using static SpaVehiculosBE.Servicios.Facturas;
 
 namespace SpaVehiculosBE.Controllers
@@ -61,8 +62,36 @@ namespace SpaVehiculosBE.Controllers
                 });
             }
             Facturas facturas = new Facturas();
-            string result = facturas.AddFactura(factura.Factura, factura.Productos, factura.Servicios);
-            return validation.FormatearRespuesta(this, result);
+            Response response = facturas.AddFactura(factura.Factura, factura.Productos, factura.Servicios);
+            string result = response.Message;
+
+            if (result.Contains("Error404"))
+            {
+                return Content(HttpStatusCode.NotFound, new
+                {
+                    success = false,
+                    message = result,
+                    
+
+                });
+            }
+
+            if (result.Contains("Error"))
+            {
+                return  Content(HttpStatusCode.BadRequest, new
+                {
+                    success = false,
+                    message = result,
+                });
+            }
+
+            return  Content(HttpStatusCode.OK, new
+            {
+                success = true,
+                message = result,
+                IdFactura = response.IdFactura
+            });
+
         }
     }
 }

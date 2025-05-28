@@ -24,6 +24,13 @@ namespace SpaVehiculosBE.Servicios
             return facturas;
         }
 
+        public class Response { 
+            public bool Success { get; set; }
+            public string Message { get; set; }
+            public int IdFactura { get; set; }
+
+        }
+
         public FacturaCompletedDTO GetFactura(int id)
         {
             Factura factura = db.Facturas.FirstOrDefault(f => f.IdFactura == id);
@@ -44,7 +51,7 @@ namespace SpaVehiculosBE.Servicios
             return facturaCompletedDTO;
         }
 
-        public string AddFactura(Factura factura, List<DetalleFacturaProducto> detalleProds, List<DetalleFacturaServicio> detalleServs )
+        public Response AddFactura(Factura factura, List<DetalleFacturaProducto> detalleProds, List<DetalleFacturaServicio> detalleServs )
         {
 
             db.Facturas.Add(factura);
@@ -66,7 +73,14 @@ namespace SpaVehiculosBE.Servicios
             Notificacion notificacion = new Notificacion();
             string result = detalleFactura.AddDetalle(detalleProds, detalleServs);
             notificacion.EnviarFactura(factura.IdFactura);
-            return result;
+            Response response = new Response
+            {
+                Success = true,
+                Message = result,
+                IdFactura = factura.IdFactura
+            };
+
+            return response;
 
         }
 
