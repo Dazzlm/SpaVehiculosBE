@@ -96,8 +96,6 @@ namespace ServicesClass.Clases
                 {
                     return "No se encontró el cliente con Id " + idCliente;
                 }
-
-                // Solo guardamos una imagen (la primera), puedes adaptarlo si deseas múltiples.
                 cliente.Imagen = imagenes.FirstOrDefault();
                 dbSuper.SaveChanges();
 
@@ -108,6 +106,24 @@ namespace ServicesClass.Clases
                 return "Error al guardar la imagen: " + ex.Message;
             }
         }
+        public bool ClienteExiste(int idCliente)
+        {
+            return Consultar(idCliente) != null;
+        }
+        public string clsUploadCliente(int idCliente, List<string> imagenes)
+        {
+            GestionClientes gestionClientes = new GestionClientes();
+
+            if (!gestionClientes.ClienteExiste(idCliente))
+            {
+                return "El cliente no existe";
+            }
+
+            string resultadoGuardarImagen = gestionClientes.GrabarImagenCliente(idCliente, imagenes);
+
+            return resultadoGuardarImagen;
+        }
+
         public string EliminarImagenCliente(string nombreArchivo)
         {
             try
