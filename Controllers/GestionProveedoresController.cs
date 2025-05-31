@@ -11,6 +11,8 @@ namespace SpaVehiculosBE.Controllers
     public class GestionProveedoresController
     {
         [RoutePrefix("api/GestorProv")]
+        [AuthorizeSuperAdmin]
+
         public class GestorProveedoresController : ApiController
         {
             [HttpGet]

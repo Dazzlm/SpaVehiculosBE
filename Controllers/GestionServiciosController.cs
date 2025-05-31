@@ -10,6 +10,8 @@ using System.Web.Http;
 namespace SpaVehiculosBE.Controllers
 {
     [RoutePrefix("api/Servicios")]
+    [AuthorizeSuperAdmin]
+
     public class ServiciosController : ApiController
     {
         private readonly GestionServicios gestionServicios = new GestionServicios();

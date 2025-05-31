@@ -9,7 +9,9 @@ using static SpaVehiculosBE.Servicios.Facturas;
 
 namespace SpaVehiculosBE.Controllers
 {
+
     [RoutePrefix("api/Facturas")]
+    [AuthorizeSuperAdmin]
     public class FacturasController : ApiController
     {
 

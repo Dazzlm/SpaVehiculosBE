@@ -9,6 +9,8 @@ using System.Web.Http;
 namespace SpaVehiculosBE.Controllers
 {
     [RoutePrefix("api/usuarios")]
+    [AuthorizeSuperAdmin]
+
     public class UsuariosController : ApiController
     {
         [HttpPost]

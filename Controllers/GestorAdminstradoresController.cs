@@ -9,6 +9,8 @@ using System.Web.Http;
 namespace SpaVehiculosBE.Controllers
 {
     [RoutePrefix("api/GestorAdmin")]
+    [AuthorizeSuperAdmin]
+
     public class GestorAdminstradoresController : ApiController
     {
         [HttpGet]
