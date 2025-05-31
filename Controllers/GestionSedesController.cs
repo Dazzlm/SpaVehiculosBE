@@ -1,11 +1,14 @@
 ﻿using ServicesClass.Clases;
 using SpaVehiculosBE.Models;
+using SpaVehiculosBE.Servicios;
 using System.Collections.Generic;
 using System.Web.Http;
 
 namespace ServicesClass.Clases
 {
     [RoutePrefix("api/Sedes")]
+    [AuthorizeSuperAdmin]
+
     public class SedesController : ApiController
     {
         [HttpGet]

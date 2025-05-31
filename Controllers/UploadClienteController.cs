@@ -9,6 +9,8 @@ using System.Web.Http;
 namespace SpaVehiculosWEB.Controllers
 {
     [RoutePrefix("api/UploadCliente")]
+    [AuthorizeSuperAdmin]
+
     public class UploadClienteController : ApiController
     {
         private readonly string[] extensionesPermitidas = { ".jpg", ".jpeg", ".png" };

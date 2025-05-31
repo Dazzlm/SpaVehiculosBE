@@ -83,6 +83,15 @@ namespace SpaVehiculosBE.Servicios
                     };
                 }
 
+                if (usuario.IdRol    != 1)
+                {
+                    return new LoginRespuesta
+                    {
+                        Autenticado = false,
+                        Mensaje = "Solo el SuperAdmin puede iniciar sesión"
+                    };
+                }
+
                 // Paso 2: obtener el salt y cifrar la clave
                 Cypher cypher = new Cypher();
                 byte[] arrBytesSalt = Convert.FromBase64String(usuario.salt);
@@ -99,11 +108,14 @@ namespace SpaVehiculosBE.Servicios
                 }
 
                 // Paso 4: generar token y retornar info
-                string token = TokenGenerator.GenerateTokenJwt(usuario.NombreUsuario);
+                string token = TokenGenerator.GenerateTokenJwt(usuario.NombreUsuario,usuario.IdRol);
 
                 string paginaInicio;
                 switch (usuario.Rol.NombreRol)
                 {
+                    case "SuperAdmin":
+                        paginaInicio = "/superadmin/inicio";
+                        break;
                     case "Administrador":
                         paginaInicio = "/admin/inicio";
                         break;
