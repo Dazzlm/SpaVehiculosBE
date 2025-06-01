@@ -45,6 +45,14 @@ namespace SpaVehiculosBE.Servicios
             List<SedeProducto> sedeProductos = db.SedeProductoes.Where(sp => sp.IdSede == idProductoSede).ToList();
             return sedeProductos;
         }
+
+        public SedeProducto BuscarPorID(int Id)
+        {
+            SedeProducto sedeProducto = db.SedeProductoes
+                .FirstOrDefault(sp => sp.IdSede == Id);
+            return sedeProducto;
+        }
+
         public List<SedeProducto> BuscarProductoSedeTodos()
         {
             List<SedeProducto> productos = db.SedeProductoes.ToList();

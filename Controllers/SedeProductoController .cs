@@ -27,6 +27,22 @@ namespace SpaVehiculosBE.Controllers
         }
 
         [HttpGet]
+        [Route("ConsultarPorIdSedeProducto")]
+        public IHttpActionResult ConsultarPorIdSedeProducto(int idSedeProducto)
+        {
+            SedeProducto sedeProducto = gestorProductoSede.BuscarPorID(idSedeProducto);
+            if (sedeProducto == null)
+            {
+                return NotFound();
+            }
+            return Ok(new
+            {
+                success = true,
+                data = sedeProducto
+            });
+        }
+
+        [HttpGet]
         [Route("ConsultarPorSede")]
 
         public IHttpActionResult ConsultarPorSede()
