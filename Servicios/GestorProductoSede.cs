@@ -49,7 +49,7 @@ namespace SpaVehiculosBE.Servicios
         public SedeProducto BuscarPorID(int Id)
         {
             SedeProducto sedeProducto = db.SedeProductoes
-                .FirstOrDefault(sp => sp.IdSede == Id);
+                .FirstOrDefault(sp => sp.Id == Id);
             return sedeProducto;
         }
 
