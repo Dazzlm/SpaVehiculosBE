@@ -7,6 +7,8 @@ using System.Web.Http;
 namespace ServicesClass.Clases
 {
     [RoutePrefix("api/Ciudades")]
+    [AuthorizeSuperAdmin]
+
     public class GestionCiudadesController : ApiController
     {
         [HttpGet]

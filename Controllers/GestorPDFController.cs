@@ -12,6 +12,8 @@ using static SpaVehiculosBE.Servicios.GestorFacturaPDF;
 namespace SpaVehiculosBE.Controllers
 {
     [RoutePrefix("api/GestorPDF")]
+    [AuthorizeSuperAdmin]
+
     public class GestorPDFController : ApiController
     {
 

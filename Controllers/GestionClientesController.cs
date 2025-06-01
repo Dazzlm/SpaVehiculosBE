@@ -1,11 +1,14 @@
 ﻿using ServicesClass.Clases;
 using SpaVehiculosBE.Models;
+using SpaVehiculosBE.Servicios;
 using System.Collections.Generic;
 using System.Web.Http;
 
 namespace ServicesClass.Clases
 {
     [RoutePrefix("api/Clientes")]
+    [AuthorizeSuperAdmin]
+
     public class ClientesController : ApiController
     {
         [HttpGet]

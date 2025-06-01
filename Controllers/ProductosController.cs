@@ -9,6 +9,8 @@ using static SpaVehiculosBE.Servicios.GestorProductos;
 namespace SpaVehiculosBE.Controllers
 {
     [RoutePrefix("api/Productos")]
+    [AuthorizeSuperAdmin]
+
     public class ProductosController : ApiController
     {
         private readonly GestorProductos _gestor = new GestorProductos();
