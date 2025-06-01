@@ -83,5 +83,13 @@ namespace SpaVehiculosBE.Controllers
             string result = gestorProductoSede.EliminarProductoSede(idSedeProducto);
             return validation.FormatearRespuesta(this, result);
         }
+
+        [HttpDelete]
+        [Route("EliminarPorId")]
+        public IHttpActionResult EliminarPorId(int idSedeProducto)
+        {
+            string result = gestorProductoSede.EliminarProductoSedeId(idSedeProducto);
+            return validation.FormatearRespuesta(this, result);
+        }
     }
 }

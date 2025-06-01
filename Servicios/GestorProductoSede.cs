@@ -114,5 +114,27 @@ namespace SpaVehiculosBE.Servicios
             }
         }
 
+        public string EliminarProductoSedeId(int id)
+        {
+
+            try
+            {
+                SedeProducto producto = db.SedeProductoes.FirstOrDefault(sp => sp.Id == id);
+                if (producto == null)
+                {
+                    return "Error404: Producto en la sede no encontrado";
+                }
+                db.SedeProductoes.Remove(producto);
+                db.SaveChanges();
+                return "El producto ha sido eliminado correctamente";
+            }
+            catch (Exception ex)
+            {
+                return "Error al eliminar el producto: " + ex.Message;
+            }
+
+        }
+
+
     }
 }
