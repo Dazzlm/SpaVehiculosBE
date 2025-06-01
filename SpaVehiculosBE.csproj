@@ -327,6 +327,9 @@
     <Compile Include="Models\Servicio.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TurnoEmpleado.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
