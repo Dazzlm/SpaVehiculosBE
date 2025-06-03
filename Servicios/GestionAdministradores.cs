@@ -7,6 +7,20 @@ using System.Web;
 
 namespace SpaVehiculosBE.Servicios
 {
+    public class AdminUsuario
+    {
+        public int IdAdmin { get; set; }
+        public string Nombre { get; set; }
+
+        public string Apellidos { get; set; }
+        public string Email { get; set; }
+        public string NombreUsuario { get; set; }
+        public string Telefono { get; set; }
+        public string Cedula { get; set; }
+        public DateTime? FechaNacimiento { get; set; }
+        public string Cargo { get; set; }
+        public bool Estado { get; set; }
+    }
     public class GestionAdministradores
     {
         private readonly SpaVehicularDBEntities db = new SpaVehicularDBEntities();
@@ -25,6 +39,57 @@ namespace SpaVehiculosBE.Servicios
                 return "Error al crear el administrador: " + ex;
             }
         }
+
+        public string InsertarAdmin(Administrador admin)
+        {
+            try
+            {
+                db.Administradors.Add(admin);
+                db.SaveChanges();
+                return "Administrador insertado correctamente";
+            }
+            catch (Exception ex)
+            {
+                return "Error al insertar el administrador: " + ex.Message;
+            }
+        }
+
+        public string InsertarAdminUsuario(AdminUsuario adminUsuario)
+        {
+            try
+            {
+                Usuario usuario = new Usuario
+                {
+                    NombreUsuario = adminUsuario.NombreUsuario,
+                    Clave = adminUsuario.Nombre + adminUsuario.Apellidos,
+                    IdRol = 1,
+                    Estado = true,
+                    salt = null,
+                    DocumentoUsuario = adminUsuario.Cedula,
+                };
+                db.Usuarios.Add(usuario);
+                db.SaveChanges();
+                Administrador nuevoAdmin = new Administrador
+                {
+                    Nombre = adminUsuario.Nombre,
+                    Apellidos = adminUsuario.Apellidos,
+                    Email = adminUsuario.Email,
+                    Teléfono = adminUsuario.Telefono,
+                    Cedula = adminUsuario.Cedula,
+                    FechaNacimiento = adminUsuario.FechaNacimiento,
+                    Cargo = adminUsuario.Cargo,
+                    IdUsuario = usuario.IdUsuario
+                };
+                db.Administradors.Add(nuevoAdmin);
+                db.SaveChanges();
+                return "Administrador y usuario insertados correctamente";
+            }
+            catch (Exception ex)
+            {
+                return "Error al insertar el administrador y usuario: " + ex.Message;
+            }
+        }
+
         public Administrador BuscarAdminID(int idAdmin)
         {
             Administrador admin = db.Administradors.FirstOrDefault(a => a.IdAdmin == idAdmin);

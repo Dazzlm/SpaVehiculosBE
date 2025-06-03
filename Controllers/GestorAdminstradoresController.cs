@@ -15,10 +15,10 @@ namespace SpaVehiculosBE.Controllers
     {
         [HttpGet]
         [Route("ConsultarPorID")]
-        public  IHttpActionResult  AdminPorID(int idAdmin)
+        public IHttpActionResult AdminPorID(int idAdmin)
         {
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
-            return Ok (servicioAdministrador.BuscarAdminID(idAdmin));
+            return Ok(servicioAdministrador.BuscarAdminID(idAdmin));
         }
         [HttpGet]
         [Route("ConsultarPorCedula")]
@@ -36,7 +36,8 @@ namespace SpaVehiculosBE.Controllers
         }
         [HttpDelete]
         [Route("EliminarAdmin")]
-        public IHttpActionResult BorrarAdmin(int idAdmin) {
+        public IHttpActionResult BorrarAdmin(int idAdmin)
+        {
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
             return Ok(servicioAdministrador.EliminarAdmin(idAdmin));
 
@@ -51,11 +52,19 @@ namespace SpaVehiculosBE.Controllers
         }
         [HttpPost]
         [Route("CrearAdmin")]
-        public IHttpActionResult CrearAdmin([FromBody]Administrador admin) {
+        public IHttpActionResult CrearAdmin([FromBody] Administrador admin)
+        {
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
             return Ok(servicioAdministrador.CrearAdmin(admin));
 
         }
-      
+        [HttpPost]
+        [Route("InsertarAdminUsuario")]
+        public IHttpActionResult InsertarAdminUsuario([FromBody] AdminUsuario adminUsuario)
+        {
+            GestionAdministradores servicioAdministrador = new GestionAdministradores();
+            return Ok(servicioAdministrador.InsertarAdminUsuario(adminUsuario));
+
+        }
     }
 }

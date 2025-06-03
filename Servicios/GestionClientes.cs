@@ -6,6 +6,20 @@ using System.Linq;
 
 namespace ServicesClass.Clases
 {
+
+    public class ClienteUsuario {
+
+        public int IdCliente { get; set; }
+        public string Nombre { get; set; }
+        public string Apellidos { get; set; }
+        public string DocumentoUsuario { get; set; }
+        public string NombreUsuario { get; set; }
+        public string Email { get; set; }
+        public string Telefono { get; set; }
+        public string Direccion { get; set; }
+        
+    }
+
     public class GestionClientes
     {
         private SpaVehicularDBEntities dbSuper = new SpaVehicularDBEntities();
@@ -18,6 +32,44 @@ namespace ServicesClass.Clases
                 dbSuper.Clientes.Add(cliente);
                 dbSuper.SaveChanges();
                 return "Cliente insertado correctamente";
+            }
+            catch (Exception ex)
+            {
+                return "Error al insertar el cliente: " + ex.Message;
+            }
+        }
+
+        public string InsertarClienteUsuario(ClienteUsuario clienteUsuario )
+        {
+            try
+            {
+                Usuario usuario = new Usuario
+                {
+                    NombreUsuario = clienteUsuario.NombreUsuario,
+                    Clave = clienteUsuario.Nombre + clienteUsuario.Apellidos, 
+                    IdRol = 3,
+                    Estado = true,
+                    salt = null,
+                    DocumentoUsuario = clienteUsuario.DocumentoUsuario,
+                };
+                dbSuper.Usuarios.Add(usuario);
+                dbSuper.SaveChanges();
+                Cliente nuevoCliente = new Cliente
+                {
+                    Nombre = clienteUsuario.Nombre,
+                    Apellidos = clienteUsuario.Apellidos,
+                    Email = clienteUsuario.Email,
+                    Teléfono = clienteUsuario.Telefono,
+                    Dirección = clienteUsuario.Direccion,
+                    IdUsuario = usuario.IdUsuario,
+                    Imagen = null 
+                };
+                dbSuper.Clientes.Add(nuevoCliente);
+                dbSuper.SaveChanges();
+
+                return "Cliente insertado correctamente";
+
+
             }
             catch (Exception ex)
             {
