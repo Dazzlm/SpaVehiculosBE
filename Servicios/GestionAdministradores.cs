@@ -182,6 +182,7 @@ namespace SpaVehiculosBE.Servicios
                     administrador.Teléfono = admin.Teléfono;
                     administrador.IdUsuario = admin.IdUsuario;
 
+
                     db.SaveChanges();
                     return "El administrador ha sido actualizado exitosamente.";
 
@@ -223,6 +224,7 @@ namespace SpaVehiculosBE.Servicios
                 administrador.Cargo = adminUsuario.Cargo;
                 usuario.NombreUsuario = adminUsuario.NombreUsuario; 
                 usuario.DocumentoUsuario = adminUsuario.Cedula;
+                usuario.Estado = adminUsuario.Estado;
                 db.SaveChanges();
                 return "Administrador y usuario actualizados correctamente.";
             }
