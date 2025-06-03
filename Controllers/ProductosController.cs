@@ -117,6 +117,17 @@ namespace SpaVehiculosBE.Controllers
             string result = _gestor.Eliminar(id);
             return _validation.FormatearRespuesta(this, result);
         }
+        [HttpGet]
+        [Route("Contar")]
+        public IHttpActionResult ContarProductos()
+        {
+            int cantidad = _gestor.ContarProductos();
+            return Ok(new
+            {
+                success = true,
+                cantidad = cantidad
+            });
+        }
 
     }
 }

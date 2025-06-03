@@ -62,5 +62,13 @@ namespace ServicesClass.Clases
             GestionClientes gestion = new GestionClientes();
             return gestion.EliminarXId(IdCliente);
         }
+        [HttpGet]
+        [Route("Contar")]
+        public int ContarClientes()
+        {
+            GestionClientes gestion = new GestionClientes();
+            return gestion.ContarClientes();
+        }
+
     }
 }
