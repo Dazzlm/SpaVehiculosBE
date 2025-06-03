@@ -34,6 +34,15 @@ namespace SpaVehiculosBE.Controllers
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
             return Ok(servicioAdministrador.BuscarAdminTodos());
         }
+
+        [HttpGet]
+        [Route("ConsultarAdminUsuario")]
+        public AdminUsuario ConsultarAdminUsuario(int id)
+        {
+            GestionAdministradores servicioAdministrador = new GestionAdministradores();
+            return servicioAdministrador.BuscarAdminUsuario(id);
+        }
+
         [HttpDelete]
         [Route("EliminarAdmin")]
         public IHttpActionResult BorrarAdmin(int idAdmin)
@@ -50,6 +59,14 @@ namespace SpaVehiculosBE.Controllers
             return Ok(servicioAdministrador.ActualizarAdmin(admin));
 
         }
+        [HttpPut]
+        [Route("ActualizarAdminUsuario")]
+        public string ActualizarAdminUsuario(AdminUsuario adminUsuario)
+        {
+            GestionAdministradores servicioAdministrador = new GestionAdministradores();
+            return servicioAdministrador.ActualizarAdminUsuario(adminUsuario);
+        }
+
         [HttpPost]
         [Route("CrearAdmin")]
         public IHttpActionResult CrearAdmin([FromBody] Administrador admin)

@@ -36,6 +36,14 @@ namespace ServicesClass.Clases
             return gestion.ConsultarXCC(CC);
         }
 
+        [HttpGet]
+        [Route("ConsultarClienteUsuario")]
+        public ClienteUsuario ConsultarClienteUsuario(int id)
+        {
+            GestionClientes gestion = new GestionClientes();
+            return gestion.ConsultarClienteUsuario(id);
+        }
+
 
         [HttpPost]
         [Route("Insertar")]
@@ -61,6 +69,14 @@ namespace ServicesClass.Clases
             GestionClientes gestion = new GestionClientes();
             gestion.cliente = cliente;
             return gestion.Actualizar();
+        }
+
+        [HttpPut]
+        [Route("ActualizarClienteUsuario")]
+        public string ActualizarClienteUsuario([FromBody] int id)
+        {
+            GestionClientes gestion = new GestionClientes();
+            return gestion.ActualizarClienteUsuario(id);
         }
 
         [HttpDelete]

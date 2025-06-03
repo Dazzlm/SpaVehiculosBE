@@ -97,6 +97,38 @@ namespace ServicesClass.Clases
             }
         }
 
+        public string ActualizarClienteUsuario(int id) { 
+            Cliente cliente = dbSuper.Clientes.FirstOrDefault(c => c.IdCliente == id);
+            if (cliente == null)
+            {
+                return "El cliente con el Id ingresado no existe, no se puede actualizar";
+            }
+            Usuario usuario = dbSuper.Usuarios.FirstOrDefault(u => u.IdUsuario == cliente.IdUsuario);
+            if (usuario == null)
+            {
+                return "El usuario asociado al cliente no existe, no se puede actualizar";
+            }
+
+            try
+            {
+                cliente.Nombre = cliente.Nombre;
+                cliente.Apellidos = cliente.Apellidos;
+                cliente.Email = cliente.Email;
+                cliente.Teléfono = cliente.Teléfono;
+                cliente.Dirección = cliente.Dirección;
+                usuario.DocumentoUsuario = usuario.DocumentoUsuario;
+                usuario.NombreUsuario = usuario.NombreUsuario;
+                dbSuper.SaveChanges();
+                return "Cliente y usuario actualizados correctamente";
+            }
+            catch (Exception ex)
+            {
+                return "Error al actualizar el cliente y usuario: " + ex.Message;
+            }
+
+
+        }
+
         public List<Cliente> ConsultarTodos()
         {
             return dbSuper.Clientes
@@ -107,6 +139,30 @@ namespace ServicesClass.Clases
         public Cliente Consultar(int idCliente)
         {
             return dbSuper.Clientes.FirstOrDefault(c => c.IdCliente == idCliente);
+        }
+
+        public ClienteUsuario ConsultarClienteUsuario(int id) {
+            Cliente cliente = dbSuper.Clientes.FirstOrDefault(c => c.IdCliente == id);
+            if (cliente == null)
+            {
+                return null;
+            }
+            Usuario usuario = dbSuper.Usuarios.FirstOrDefault(u => u.IdUsuario == cliente.IdUsuario);
+            if (usuario == null)
+            {
+                return null;
+            }
+            return new ClienteUsuario
+            {
+                IdCliente = cliente.IdCliente,
+                Nombre = cliente.Nombre,
+                Apellidos = cliente.Apellidos,
+                DocumentoUsuario = usuario.DocumentoUsuario,
+                NombreUsuario = usuario.NombreUsuario,
+                Email = cliente.Email,
+                Telefono = cliente.Teléfono,
+                Direccion = cliente.Dirección
+            };
         }
 
         public Cliente ConsultarXCC(string cedula)

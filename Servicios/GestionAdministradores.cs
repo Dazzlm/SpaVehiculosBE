@@ -11,12 +11,12 @@ namespace SpaVehiculosBE.Servicios
     {
         public int IdAdmin { get; set; }
         public string Nombre { get; set; }
-
         public string Apellidos { get; set; }
         public string Email { get; set; }
-        public string NombreUsuario { get; set; }
         public string Telefono { get; set; }
         public string Cedula { get; set; }
+        public string NombreUsuario { get; set; }
+        public string Contrasena { get; set; }
         public DateTime? FechaNacimiento { get; set; }
         public string Cargo { get; set; }
         public bool Estado { get; set; }
@@ -58,13 +58,23 @@ namespace SpaVehiculosBE.Servicios
         {
             try
             {
+
+                Cypher cypher = new Cypher();
+                cypher.Password = adminUsuario.Contrasena;
+
+                if (!cypher.CifrarClave())
+                {
+                    return "Error al cifrar la clave del usuario.";
+                }
+
+
                 Usuario usuario = new Usuario
                 {
                     NombreUsuario = adminUsuario.NombreUsuario,
-                    Clave = adminUsuario.Nombre + adminUsuario.Apellidos,
+                    Clave = cypher.PasswordCifrado,
                     IdRol = 1,
                     Estado = true,
-                    salt = null,
+                    salt = cypher.Salt,
                     DocumentoUsuario = adminUsuario.Cedula,
                 };
                 db.Usuarios.Add(usuario);
@@ -90,6 +100,33 @@ namespace SpaVehiculosBE.Servicios
             }
         }
 
+        public AdminUsuario BuscarAdminUsuario(int id)
+        {
+            Administrador administrador = db.Administradors.FirstOrDefault(a => a.IdAdmin == id);
+            if (administrador == null)
+            {
+                return null;
+            }
+            Usuario usuario = db.Usuarios.FirstOrDefault(u => u.IdUsuario == administrador.IdUsuario);
+            if (usuario == null)
+            {
+                return null; 
+            }
+            AdminUsuario adminUsuario = new AdminUsuario
+            {
+                IdAdmin = administrador.IdAdmin,
+                Nombre = administrador.Nombre,
+                Apellidos = administrador.Apellidos,
+                Email = administrador.Email,
+                Telefono = administrador.Teléfono,
+                Cedula = administrador.Cedula,
+                NombreUsuario = usuario.NombreUsuario,
+                FechaNacimiento = administrador.FechaNacimiento,
+                Cargo = administrador.Cargo,
+            };
+            return adminUsuario;
+        }
+
         public Administrador BuscarAdminID(int idAdmin)
         {
             Administrador admin = db.Administradors.FirstOrDefault(a => a.IdAdmin == idAdmin);
@@ -97,7 +134,7 @@ namespace SpaVehiculosBE.Servicios
         }
         public Administrador BuscarAdminCedula(string cedula)
         {
-            Administrador admin = db.Administradors.FirstOrDefault(a => a.Cedula== cedula);
+            Administrador admin = db.Administradors.FirstOrDefault(a => a.Cedula == cedula);
             return admin;
         }
         public List<Administrador> BuscarAdminTodos()
@@ -144,6 +181,7 @@ namespace SpaVehiculosBE.Servicios
                     administrador.FechaNacimiento = admin.FechaNacimiento;
                     administrador.Teléfono = admin.Teléfono;
                     administrador.IdUsuario = admin.IdUsuario;
+
                     db.SaveChanges();
                     return "El administrador ha sido actualizado exitosamente.";
 
@@ -159,6 +197,39 @@ namespace SpaVehiculosBE.Servicios
 
             }
 
+        }
+
+        public string ActualizarAdminUsuario(AdminUsuario adminUsuario)
+        {
+            try
+            {
+                Administrador administrador = db.Administradors.FirstOrDefault(a => a.IdAdmin == adminUsuario.IdAdmin);
+                if (administrador == null)
+                {
+                    return "El administrador no existe.";
+                }
+                Usuario usuario = db.Usuarios.FirstOrDefault(u => u.IdUsuario == administrador.IdUsuario);
+                if (usuario == null)
+                {
+                    return "El usuario asociado al administrador no existe.";
+                }
+                // Actualizar los datos del administrador
+                administrador.Nombre = adminUsuario.Nombre;
+                administrador.Apellidos = adminUsuario.Apellidos;
+                administrador.Email = adminUsuario.Email;
+                administrador.Teléfono = adminUsuario.Telefono;
+                administrador.Cedula = adminUsuario.Cedula;
+                administrador.FechaNacimiento = adminUsuario.FechaNacimiento;
+                administrador.Cargo = adminUsuario.Cargo;
+                usuario.NombreUsuario = adminUsuario.NombreUsuario; 
+                usuario.DocumentoUsuario = adminUsuario.Cedula;
+                db.SaveChanges();
+                return "Administrador y usuario actualizados correctamente.";
+            }
+            catch (Exception ex)
+            {
+                return "Error al actualizar el administrador y usuario: " + ex.Message;
+            }
         }
     }
 }
