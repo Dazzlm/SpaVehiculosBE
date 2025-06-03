@@ -140,6 +140,10 @@ namespace SpaVehiculosBE.Servicios
             }
             return "Producto eliminado con éxito";
         }
+        public int ContarProductos()
+        {
+            return _dbContext.Productoes.Count();
+        }
 
     }
 }

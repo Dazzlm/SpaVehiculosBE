@@ -259,5 +259,17 @@ namespace ServicesClass.Clases
                 return null;
             return cliente.Imagen;
         }
+        public int ContarClientes()
+        {
+            try
+            {
+                return dbSuper.Clientes.Count();
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
     }
 }
