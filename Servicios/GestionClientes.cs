@@ -97,8 +97,8 @@ namespace ServicesClass.Clases
             }
         }
 
-        public string ActualizarClienteUsuario(int id) { 
-            Cliente cliente = dbSuper.Clientes.FirstOrDefault(c => c.IdCliente == id);
+        public string ActualizarClienteUsuario(ClienteUsuario clienteUsuario) { 
+            Cliente cliente = dbSuper.Clientes.FirstOrDefault(c => c.IdCliente == clienteUsuario.IdCliente);
             if (cliente == null)
             {
                 return "El cliente con el Id ingresado no existe, no se puede actualizar";
@@ -111,13 +111,13 @@ namespace ServicesClass.Clases
 
             try
             {
-                cliente.Nombre = cliente.Nombre;
-                cliente.Apellidos = cliente.Apellidos;
-                cliente.Email = cliente.Email;
-                cliente.Teléfono = cliente.Teléfono;
-                cliente.Dirección = cliente.Dirección;
-                usuario.DocumentoUsuario = usuario.DocumentoUsuario;
-                usuario.NombreUsuario = usuario.NombreUsuario;
+                cliente.Nombre = clienteUsuario.Nombre;
+                cliente.Apellidos = clienteUsuario.Apellidos;
+                cliente.Email = clienteUsuario.Email;
+                cliente.Teléfono = clienteUsuario.Telefono;
+                cliente.Dirección = clienteUsuario.Direccion;
+                usuario.DocumentoUsuario = clienteUsuario.DocumentoUsuario;
+                usuario.NombreUsuario = clienteUsuario.NombreUsuario;
                 dbSuper.SaveChanges();
                 return "Cliente y usuario actualizados correctamente";
             }
@@ -195,6 +195,34 @@ namespace ServicesClass.Clases
                 return "Error al eliminar el cliente: " + ex.Message;
             }
         }
+
+        public string EliminarClienteUsuario(int idCliente)
+        {
+            try
+            {
+                Cliente cli = Consultar(idCliente);
+                if (cli == null)
+                {
+                    return "El cliente con el Id ingresado no existe, no se puede eliminar";
+                }
+
+                Usuario usuario = dbSuper.Usuarios.FirstOrDefault(u => u.IdUsuario == cli.IdUsuario);
+                if (usuario == null)
+                {
+                    return "El usuario asociado al cliente no existe, no se puede eliminar";
+                }
+                dbSuper.Clientes.Remove(cli);
+                dbSuper.Usuarios.Remove(usuario);
+                
+                dbSuper.SaveChanges();
+                return "Cliente eliminado correctamente";
+            }
+            catch (Exception ex)
+            {
+                return "Error al eliminar el cliente: " + ex.Message;
+            }
+        }
+
         public string GrabarImagenCliente(int idCliente, List<string> imagenes)
         {
             try

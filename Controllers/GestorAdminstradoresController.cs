@@ -51,6 +51,15 @@ namespace SpaVehiculosBE.Controllers
             return Ok(servicioAdministrador.EliminarAdmin(idAdmin));
 
         }
+
+        [HttpDelete]
+        [Route("EliminarAdminUsuario")]
+        public String BorrarAdminUsuario(int idAdmin)
+        {
+            GestionAdministradores servicioAdministrador = new GestionAdministradores();
+            return servicioAdministrador.EliminarAdminUsuario(idAdmin);
+        }
+
         [HttpPut]
         [Route("ActualizarAdmin")]
         public IHttpActionResult ActualizarAdmin(Administrador admin)

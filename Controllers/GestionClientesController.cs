@@ -73,10 +73,10 @@ namespace ServicesClass.Clases
 
         [HttpPut]
         [Route("ActualizarClienteUsuario")]
-        public string ActualizarClienteUsuario([FromBody] int id)
+        public string ActualizarClienteUsuario([FromBody] ClienteUsuario cliente)
         {
             GestionClientes gestion = new GestionClientes();
-            return gestion.ActualizarClienteUsuario(id);
+            return gestion.ActualizarClienteUsuario(cliente);
         }
 
         [HttpDelete]
@@ -86,6 +86,15 @@ namespace ServicesClass.Clases
             GestionClientes gestion = new GestionClientes();
             return gestion.EliminarXId(IdCliente);
         }
+
+        [HttpDelete]
+        [Route("EliminarClienteUsuario")]
+        public string EliminarClienteUsuario(int idCliente)
+        {
+            GestionClientes gestion = new GestionClientes();
+            return gestion.EliminarClienteUsuario(idCliente);
+        }
+
         [HttpGet]
         [Route("Contar")]
         public int ContarClientes()

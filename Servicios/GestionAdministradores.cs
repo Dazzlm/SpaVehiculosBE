@@ -233,5 +233,34 @@ namespace SpaVehiculosBE.Servicios
                 return "Error al actualizar el administrador y usuario: " + ex.Message;
             }
         }
+
+        public string EliminarAdminUsuario(int id) {
+            try
+            {
+                Administrador administrador = db.Administradors.FirstOrDefault(a => a.IdAdmin == id);
+                if (administrador != null)
+                {
+                    Usuario usuario = db.Usuarios.FirstOrDefault(u => u.IdUsuario == administrador.IdUsuario);
+                    if (usuario == null)
+                    {
+                        return "El usuario asociado al administrador no existe.";
+                    }
+                    
+                    db.Administradors.Remove(administrador);
+                    db.Usuarios.Remove(usuario);
+                    db.SaveChanges();
+                    return "El administrador y su usuario han sido eliminados correctamente.";
+                }
+                else
+                {
+                    return "El administrador no se encuentra registrado.";
+                }
+            }
+            catch (Exception ex)
+            {
+                return "Error al eliminar el administrador y usuario: " + ex.Message;
+            }
+
+        }
     }
 }
