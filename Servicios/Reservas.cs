@@ -100,7 +100,7 @@ namespace SpaVehiculosBE.Servicios
         public List<Reserva> ConsultarReservasPorFecha(DateTime fecha)
         {
             var inicioDia = fecha.Date;
-            var finDia = inicioDia.AddDays(1); // Hasta el inicio del día siguiente
+            var finDia = inicioDia.AddDays(1); 
 
             return db.Reservas
                      .Include(r => r.Cliente)
