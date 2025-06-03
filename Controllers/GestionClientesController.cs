@@ -46,6 +46,14 @@ namespace ServicesClass.Clases
             return gestion.Insertar();
         }
 
+        [HttpPost]
+        [Route("InsertarClienteUsuario")]
+        public string InsertarClienteUsuario([FromBody] ClienteUsuario clienteUsuario)
+        {
+            GestionClientes gestion = new GestionClientes();
+            return gestion.InsertarClienteUsuario(clienteUsuario);
+        }
+
         [HttpPut]
         [Route("Actualizar")]
         public string Actualizar([FromBody] Cliente cliente)

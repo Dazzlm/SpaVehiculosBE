@@ -56,7 +56,6 @@ namespace SpaVehiculosBE.Servicios
             {
                 GestionClientes gestionClientes = new GestionClientes();
 
-                // Validar existencia del cliente
                 if (!gestionClientes.ClienteExiste(idCliente))
                 {
                     return "Error: El cliente no existe.";
