@@ -123,6 +123,7 @@ namespace SpaVehiculosBE.Servicios
                 NombreUsuario = usuario.NombreUsuario,
                 FechaNacimiento = administrador.FechaNacimiento,
                 Cargo = administrador.Cargo,
+                Estado = usuario.Estado
             };
             return adminUsuario;
         }
