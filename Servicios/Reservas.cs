@@ -97,17 +97,13 @@ namespace SpaVehiculosBE.Servicios
                      .Where(a => a.IdCliente == idCliente)
                      .ToList();
         }
-        public List<Reserva> ConsultarReservasPorFecha(DateTime fecha)
+        public int ContarReservasPorFecha(DateTime fecha)
         {
             var inicioDia = fecha.Date;
-            var finDia = inicioDia.AddDays(1); 
+            var finDia = inicioDia.AddDays(1);
 
             return db.Reservas
-                     .Include(r => r.Cliente)
-                     .Include(r => r.Sede)
-                     .Include(r => r.Servicio)
-                     .Where(a => a.Fecha.HasValue && a.Fecha.Value >= inicioDia && a.Fecha.Value < finDia)
-                     .ToList();
+                     .Count(a => a.Fecha.HasValue && a.Fecha.Value >= inicioDia && a.Fecha.Value < finDia);
         }
 
         public List<Reserva> ConsultarReservasTodos()
