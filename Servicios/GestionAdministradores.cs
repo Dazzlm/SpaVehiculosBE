@@ -73,7 +73,7 @@ namespace SpaVehiculosBE.Servicios
                     NombreUsuario = adminUsuario.NombreUsuario,
                     Clave = cypher.PasswordCifrado,
                     IdRol = 1,
-                    Estado = true,
+                    Estado = adminUsuario.Estado,
                     salt = cypher.Salt,
                     DocumentoUsuario = adminUsuario.Cedula,
                 };

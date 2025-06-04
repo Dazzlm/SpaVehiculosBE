@@ -70,7 +70,7 @@ namespace SpaVehiculosBE.Servicios
 
             try
             {
-                // Paso 1: buscar usuario por nombre
+               
                 Usuario usuario = db.Usuarios.Include(u => u.Rol)
                                              .FirstOrDefault(u => u.NombreUsuario == login.NombreUsuario);
                 Console.WriteLine(usuario);
@@ -83,7 +83,7 @@ namespace SpaVehiculosBE.Servicios
                     };
                 }
 
-                if (usuario.IdRol    != 1)
+                if (usuario.IdRol != 1 || usuario.Estado == true)
                 {
                     return new LoginRespuesta
                     {
@@ -92,12 +92,12 @@ namespace SpaVehiculosBE.Servicios
                     };
                 }
 
-                // Paso 2: obtener el salt y cifrar la clave
+                
                 Cypher cypher = new Cypher();
                 byte[] arrBytesSalt = Convert.FromBase64String(usuario.salt);
                 string claveHasheada = cypher.HashPassword(login.Clave, arrBytesSalt);
 
-                // Paso 3: comparar claves
+               
                 if (usuario.Clave != claveHasheada)
                 {
                     return new LoginRespuesta
@@ -107,7 +107,6 @@ namespace SpaVehiculosBE.Servicios
                     };
                 }
 
-                // Paso 4: generar token y retornar info
                 string token = TokenGenerator.GenerateTokenJwt(usuario.NombreUsuario,usuario.IdRol);
 
                 string paginaInicio;
@@ -150,12 +149,6 @@ namespace SpaVehiculosBE.Servicios
             }
         }
 
-
-
-
-
     }
-
-
 
 }
