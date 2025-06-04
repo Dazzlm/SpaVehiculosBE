@@ -25,14 +25,13 @@ namespace SpaVehiculosBE.Servicios
             return facturas;
         }
 
-        public List<Factura> ObtenerFacturasDeHoy()
+        public int ContarFacturasDeHoy()
         {
             DateTime hoy = DateTime.Today;
             DateTime mañana = hoy.AddDays(1);
-            List<Factura> facturasHoy = db.Facturas
-             .Where(f => f.Fecha >= hoy && f.Fecha < mañana)
-             .ToList();
-            return facturasHoy;
+            int cantidad = db.Facturas
+                .Count(f => f.Fecha >= hoy && f.Fecha < mañana);
+            return cantidad;
         }
 
 

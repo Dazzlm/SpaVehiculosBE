@@ -41,16 +41,13 @@ namespace SpaVehiculosBE.Controllers
         }
 
         [HttpGet]
-        [Route("ConsultarPorFecha")]
-        public IHttpActionResult ConsultarPorFecha(DateTime fecha)
+        [Route("ContarPorFecha")]
+        public IHttpActionResult ContarPorFecha(DateTime fecha)
         {
-            var reservasFecha = reservas.ConsultarReservasPorFecha(fecha);
-            if (reservasFecha == null || !reservasFecha.Any())
-            {
-                return NotFound();
-            }
-            return Ok(reservasFecha);
+            int cantidad = reservas.ContarReservasPorFecha(fecha);
+            return Ok(new { cantidad = cantidad });
         }
+
 
         [HttpGet]
         [Route("ConsultarTodos")]

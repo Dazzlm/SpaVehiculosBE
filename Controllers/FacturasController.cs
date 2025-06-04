@@ -32,15 +32,11 @@ namespace SpaVehiculosBE.Controllers
 
         [HttpGet]
         [Route("ConsultarFacturasHoy")]
-        public IHttpActionResult GetFacturasHoy()
+        public IHttpActionResult GetCantidadFacturasHoy()
         {
             Facturas facturas = new Facturas();
-            List<Factura> listaFacturas = facturas.ObtenerFacturasDeHoy();
-            return Ok(new
-            {
-                success = true,
-                data = listaFacturas
-            });
+            int cantidad = facturas.ContarFacturasDeHoy();
+            return Ok(new{cantidad = cantidad});
         }
 
         [HttpGet]
