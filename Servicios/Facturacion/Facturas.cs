@@ -2,6 +2,7 @@
 using SpaVehiculosBE.Servicios.Facturacion;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using static SpaVehiculosBE.Servicios.Facturacion.DetalleFactura;
@@ -23,6 +24,17 @@ namespace SpaVehiculosBE.Servicios
             List<Factura> facturas = db.Facturas.ToList();
             return facturas;
         }
+
+        public List<Factura> ObtenerFacturasDeHoy()
+        {
+            DateTime hoy = DateTime.Today;
+            DateTime mañana = hoy.AddDays(1);
+            List<Factura> facturasHoy = db.Facturas
+             .Where(f => f.Fecha >= hoy && f.Fecha < mañana)
+             .ToList();
+            return facturasHoy;
+        }
+
 
         public class Response { 
             public bool Success { get; set; }

@@ -31,6 +31,19 @@ namespace SpaVehiculosBE.Controllers
         }
 
         [HttpGet]
+        [Route("ConsultarFacturasHoy")]
+        public IHttpActionResult GetFacturasHoy()
+        {
+            Facturas facturas = new Facturas();
+            List<Factura> listaFacturas = facturas.ObtenerFacturasDeHoy();
+            return Ok(new
+            {
+                success = true,
+                data = listaFacturas
+            });
+        }
+
+        [HttpGet]
         [Route("ConsultarFacturaXId")]
         public IHttpActionResult GetFactura(int id)
         {
