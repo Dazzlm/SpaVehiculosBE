@@ -8,9 +8,9 @@ Bienvenido al **Backend del sistema AutoSpa**, el motor que impulsa toda la lóg
 
 ## 🌐 URL del servicio desplegado
 
-📡 Accede a la documentación interactiva de la API en Swagger:
+📡 Accede a la documentación de la API:
 
-👉 [http://spavehiculos.runasp.net/Help](http://spavehiculos.runasp.net/Help)
+👉 [http://spavehiculos.runasp.net/Help](https://spavehiculos.runasp.net/)
 
 ---
 
