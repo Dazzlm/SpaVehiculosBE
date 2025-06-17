@@ -20,7 +20,7 @@ namespace SpaVehiculosBE.Controllers
         [Route("ConsultarPorID")]
         public IHttpActionResult ConsultarPorID(int idSedeProducto)
         {
-            List<SedeProducto> sedeProducto = gestorProductoSede.BuscarProductosSedeID(idSedeProducto);
+            RespuestaServicio< List<SedeProducto>> sedeProducto = gestorProductoSede.BuscarProductosSedeID(idSedeProducto);
             return Ok(new
             {
                 success = true,
@@ -32,7 +32,7 @@ namespace SpaVehiculosBE.Controllers
         [Route("ConsultarPorIdSedeProducto")]
         public IHttpActionResult ConsultarPorIdSedeProducto(int idSedeProducto)
         {
-            SedeProducto sedeProducto = gestorProductoSede.BuscarPorID(idSedeProducto);
+            RespuestaServicio<SedeProducto> sedeProducto = gestorProductoSede.BuscarPorID(idSedeProducto);
             if (sedeProducto == null)
             {
                 return NotFound();
@@ -49,8 +49,8 @@ namespace SpaVehiculosBE.Controllers
 
         public IHttpActionResult ConsultarPorSede()
         {
-            List<SedeProducto> sedeProductos = gestorProductoSede.BuscarProductoSedeTodos();
-            if (sedeProductos == null || !sedeProductos.Any())
+            RespuestaServicio<List<SedeProducto>> sedeProductos = gestorProductoSede.BuscarProductoSedeTodos();
+            if (sedeProductos.Data == null || !sedeProductos.Data.Any())
             {
                 return NotFound();
             }
@@ -64,7 +64,7 @@ namespace SpaVehiculosBE.Controllers
         [Route("Crear")]
         public IHttpActionResult Crear([FromBody] SedeProducto sedeProducto)
         {
-            string result = gestorProductoSede.CrearProductoSede(sedeProducto);
+            RespuestaServicio<string> result = gestorProductoSede.CrearProductoSede(sedeProducto);
 
             return validation.FormatearRespuesta(this, result);
 
@@ -73,14 +73,14 @@ namespace SpaVehiculosBE.Controllers
         [Route("Actualizar")]
         public IHttpActionResult Actualizar([FromBody] SedeProducto sedeProducto)
         {
-            string result = gestorProductoSede.ActualizarStock(sedeProducto);
+            RespuestaServicio<string> result = gestorProductoSede.ActualizarStock(sedeProducto);
             return validation.FormatearRespuesta(this, result);
         }
         [HttpDelete]
         [Route("Eliminar")]
         public IHttpActionResult Eliminar(int idSedeProducto)
         {
-            string result = gestorProductoSede.EliminarProductoSede(idSedeProducto);
+            RespuestaServicio<string> result = gestorProductoSede.EliminarProductoSede(idSedeProducto);
             return validation.FormatearRespuesta(this, result);
         }
 
@@ -88,7 +88,7 @@ namespace SpaVehiculosBE.Controllers
         [Route("EliminarPorId")]
         public IHttpActionResult EliminarPorId(int idSedeProducto)
         {
-            string result = gestorProductoSede.EliminarProductoSedeId(idSedeProducto);
+            RespuestaServicio<string> result = gestorProductoSede.EliminarProductoSedeId(idSedeProducto);
             return validation.FormatearRespuesta(this, result);
         }
     }

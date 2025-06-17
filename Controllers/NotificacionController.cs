@@ -21,7 +21,7 @@ namespace SpaVehiculosBE.Controllers
         public IHttpActionResult EnviarNotificacion(int id)
         {
             Notificacion notificacion = new Notificacion();
-            string result = notificacion.EnviarFactura(id);
+            RespuestaServicio<string> result = notificacion.EnviarFactura(id);
             return validation.FormatearRespuesta(this, result);
         }
 
