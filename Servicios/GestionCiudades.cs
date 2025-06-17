@@ -11,66 +11,91 @@ namespace ServicesClass.Clases
         private SpaVehicularDBEntities dbSuper = new SpaVehicularDBEntities();
         public Ciudad ciudad { get; set; }
 
-        public string Insertar()
+        public RespuestaServicio<string> Insertar()
         {
             try
             {
                 dbSuper.Ciudads.Add(ciudad);
                 dbSuper.SaveChanges();
-                return "Ciudad insertada correctamente";
+                return RespuestaServicio<string>.ConExito(default, "Ciudad insertada correctamente");
             }
             catch (Exception ex)
             {
-                return "Error al insertar la ciudad: " + ex.Message;
+                return RespuestaServicio<string>.ConError("Error al insertar la ciudad: " + ex.Message);
             }
         }
 
-        public string Actualizar()
+        public RespuestaServicio<string> Actualizar()
         {
             try
             {
-                Ciudad c = Consultar(ciudad.IdCiudad);
-                if (c == null)
+                RespuestaServicio<Ciudad> c = Consultar(ciudad.IdCiudad);
+                if (c.Data == null)
                 {
-                    return "La ciudad con el ID ingresado no existe, por lo tanto no se puede actualizar";
+                    return RespuestaServicio<string>.ConError("Error404: La ciudad con el ID ingresado no existe, por lo tanto no se puede actualizar");
                 }
                 dbSuper.Ciudads.AddOrUpdate(ciudad);
                 dbSuper.SaveChanges();
-                return "Se actualizó la ciudad correctamente";
+                return RespuestaServicio<string>.ConExito(default, "Se actualizó la ciudad correctamente");
             }
             catch (Exception ex)
             {
-                return "No se pudo actualizar la ciudad: " + ex.Message;
+                return RespuestaServicio<string>.ConError("No se pudo actualizar la ciudad: " + ex.Message);
             }
         }
 
-        public List<Ciudad> ConsultarTodos()
+        public RespuestaServicio<List<Ciudad>> ConsultarTodos()
         {
-            return dbSuper.Ciudads
+
+            try {
+                List<Ciudad> ciudades = dbSuper.Ciudads
                 .OrderBy(c => c.Nombre)
                 .ToList();
+                if (ciudades == null)
+                {
+                    return RespuestaServicio<List<Ciudad>>.ConError("Error404: No hay ciudades para mostrar");
+                }
+                return RespuestaServicio<List<Ciudad>>.ConExito(ciudades, "Ciudades consultadas correctamente");
+            }
+            catch (Exception ex)
+            {
+                return RespuestaServicio<List<Ciudad>>.ConError("Error al consultar las ciudades: " + ex.Message);
+            }
+
         }
 
-        public Ciudad Consultar(int IdCiudad)
+        public RespuestaServicio<Ciudad> Consultar(int IdCiudad)
         {
-            return dbSuper.Ciudads.FirstOrDefault(c => c.IdCiudad == IdCiudad);
+            try {
+                Ciudad ciudad = dbSuper.Ciudads.FirstOrDefault(c => c.IdCiudad == IdCiudad);
+                if (ciudad == null)
+                {
+                    return RespuestaServicio<Ciudad>.ConError("Error404: Ciudad no encontrada");
+                }
+            }
+            catch (Exception ex)
+            {
+                return RespuestaServicio<Ciudad>.ConError("Error al consultar la ciudad: " + ex.Message);
+            }
+            
+            return RespuestaServicio<Ciudad>.ConExito(ciudad);
         }
-        public string EliminarXId(int IdCiudad)
+        public RespuestaServicio<string> EliminarXId(int IdCiudad)
         {
             try
             {
-                Ciudad c = Consultar(IdCiudad);
-                if (c == null)
+                RespuestaServicio<Ciudad>  c = Consultar(IdCiudad);
+                if (c.Data == null)
                 {
-                    return "La ciudad con el ID ingresado no existe, por lo tanto no se puede eliminar";
+                    return RespuestaServicio<string>.ConError("Error404: La ciudad con el ID ingresado no existe, por lo tanto no se puede eliminar");
                 }
-                dbSuper.Ciudads.Remove(c);
+                dbSuper.Ciudads.Remove(c.Data);
                 dbSuper.SaveChanges();
-                return "Se eliminó la ciudad correctamente";
+                return RespuestaServicio<string>.ConExito(default,"Se eliminó la ciudad correctamente");
             }
             catch (Exception ex)
             {
-                return "No se pudo eliminar la ciudad: " + ex.Message;
+                return RespuestaServicio<string>.ConError("No se pudo eliminar la ciudad: " + ex.Message);
             }
         }
     }

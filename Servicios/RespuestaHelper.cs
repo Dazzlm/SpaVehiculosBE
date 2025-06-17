@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using SpaVehiculosBE.Models;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
@@ -7,31 +9,28 @@ namespace SpaVehiculosBE
 {
     public class RespuestaHelper
     {
-        public IHttpActionResult FormatearRespuesta(ApiController controller, string resultado)
+        public IHttpActionResult FormatearRespuesta<T>(ApiController controller, RespuestaServicio<T> respuestaServicio)
         {
-            if (resultado.Contains("Error404"))
+            HttpStatusCode status;
+            string mensaje;
+
+            if (!respuestaServicio.Success)
             {
-                return new ResponseMessageResult(controller.Request.CreateResponse(HttpStatusCode.NotFound, new
-                {
-                    success = false,
-                    message = resultado
-                }));
+                mensaje = string.Join(" | ", respuestaServicio.Message);
+
+                if (respuestaServicio.Message.Contains("404"))
+                    status = HttpStatusCode.NotFound;
+                else
+                    status = HttpStatusCode.BadRequest;
+            }
+            else
+            {
+                mensaje = "Operación exitosa";
+                status = HttpStatusCode.OK;
             }
 
-            if (resultado.Contains("Error"))
-            {
-                return new ResponseMessageResult(controller.Request.CreateResponse(HttpStatusCode.BadRequest, new
-                {
-                    success = false,
-                    message = resultado
-                }));
-            }
-
-            return new ResponseMessageResult(controller.Request.CreateResponse(HttpStatusCode.OK, new
-            {
-                success = true,
-                message = resultado
-            }));
+           
+            return new ResponseMessageResult(controller.Request.CreateResponse(status, respuestaServicio));
         }
     }
 }

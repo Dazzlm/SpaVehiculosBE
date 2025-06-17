@@ -24,37 +24,37 @@ namespace SpaVehiculosBE.Servicios
     public class GestionAdministradores
     {
         private readonly SpaVehicularDBEntities db = new SpaVehicularDBEntities();
-        public string CrearAdmin(Administrador admin)
+        public RespuestaServicio<string> CrearAdmin(Administrador admin)
 
         {
             try
             {
                 db.Administradors.Add(admin);
                 db.SaveChanges();
-                return "Administrador creado con exito";
+                return RespuestaServicio<string>.ConExito(default,"Administrador creado con exito");
 
             }
             catch (Exception ex)
             {
-                return "Error al crear el administrador: " + ex;
+                return RespuestaServicio<string>.ConError( "Error al crear el administrador: " + ex);
             }
         }
 
-        public string InsertarAdmin(Administrador admin)
+        public RespuestaServicio<string> InsertarAdmin(Administrador admin)
         {
             try
             {
                 db.Administradors.Add(admin);
                 db.SaveChanges();
-                return "Administrador insertado correctamente";
+                return RespuestaServicio<string>.ConExito(default,"Administrador insertado correctamente");
             }
             catch (Exception ex)
             {
-                return "Error al insertar el administrador: " + ex.Message;
+                return RespuestaServicio<string>.ConError("Error al insertar el administrador: " + ex.Message);
             }
         }
 
-        public string InsertarAdminUsuario(AdminUsuario adminUsuario)
+        public RespuestaServicio<string> InsertarAdminUsuario(AdminUsuario adminUsuario)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace SpaVehiculosBE.Servicios
 
                 if (!cypher.CifrarClave())
                 {
-                    return "Error al cifrar la clave del usuario.";
+                    return RespuestaServicio<string>.ConError( "Error al cifrar la clave del usuario.");
                 }
 
 
@@ -92,58 +92,90 @@ namespace SpaVehiculosBE.Servicios
                 };
                 db.Administradors.Add(nuevoAdmin);
                 db.SaveChanges();
-                return "Administrador y usuario insertados correctamente";
+                return RespuestaServicio<string>.ConExito(default, "Administrador y usuario insertados correctamente");
             }
             catch (Exception ex)
             {
-                return "Error al insertar el administrador y usuario: " + ex.Message;
+                return RespuestaServicio<string>.ConError("Error al insertar el administrador y usuario: " + ex.Message);
             }
         }
 
-        public AdminUsuario BuscarAdminUsuario(int id)
+        public RespuestaServicio<AdminUsuario> BuscarAdminUsuario(int id)
         {
-            Administrador administrador = db.Administradors.FirstOrDefault(a => a.IdAdmin == id);
-            if (administrador == null)
-            {
-                return null;
+
+            try {
+
+                Administrador administrador = db.Administradors.FirstOrDefault(a => a.IdAdmin == id);
+                if (administrador == null)
+                {
+                    return null;
+                }
+                Usuario usuario = db.Usuarios.FirstOrDefault(u => u.IdUsuario == administrador.IdUsuario);
+                if (usuario == null)
+                {
+                    return null;
+                }
+                AdminUsuario adminUsuario = new AdminUsuario
+                {
+                    IdAdmin = administrador.IdAdmin,
+                    Nombre = administrador.Nombre,
+                    Apellidos = administrador.Apellidos,
+                    Email = administrador.Email,
+                    Telefono = administrador.Teléfono,
+                    Cedula = administrador.Cedula,
+                    NombreUsuario = usuario.NombreUsuario,
+                    FechaNacimiento = administrador.FechaNacimiento,
+                    Cargo = administrador.Cargo,
+                    Estado = usuario.Estado
+                };
+
+                return RespuestaServicio<AdminUsuario>.ConExito (adminUsuario);
+
             }
-            Usuario usuario = db.Usuarios.FirstOrDefault(u => u.IdUsuario == administrador.IdUsuario);
-            if (usuario == null)
+            catch(Exception ex)
             {
-                return null; 
+                return RespuestaServicio<AdminUsuario>.ConError("Error404: al buscar el administrador: " + ex.Message);
             }
-            AdminUsuario adminUsuario = new AdminUsuario
-            {
-                IdAdmin = administrador.IdAdmin,
-                Nombre = administrador.Nombre,
-                Apellidos = administrador.Apellidos,
-                Email = administrador.Email,
-                Telefono = administrador.Teléfono,
-                Cedula = administrador.Cedula,
-                NombreUsuario = usuario.NombreUsuario,
-                FechaNacimiento = administrador.FechaNacimiento,
-                Cargo = administrador.Cargo,
-                Estado = usuario.Estado
-            };
-            return adminUsuario;
         }
 
-        public Administrador BuscarAdminID(int idAdmin)
+        public RespuestaServicio<Administrador> BuscarAdminID(int idAdmin)
         {
-            Administrador admin = db.Administradors.FirstOrDefault(a => a.IdAdmin == idAdmin);
-            return admin;
+            try {
+                Administrador admin = db.Administradors.FirstOrDefault(a => a.IdAdmin == idAdmin);
+                return RespuestaServicio<Administrador>.ConExito(admin);
+            }
+            catch(Exception ex)
+            {
+                return RespuestaServicio<Administrador>.ConError("Error404: al buscar el administrador: " + ex.Message);
+            }
+            
         }
-        public Administrador BuscarAdminCedula(string cedula)
+        public RespuestaServicio<Administrador> BuscarAdminCedula(string cedula)
         {
-            Administrador admin = db.Administradors.FirstOrDefault(a => a.Cedula == cedula);
-            return admin;
+            try
+            {
+                Administrador admin = db.Administradors.FirstOrDefault(a => a.Cedula == cedula);
+                return RespuestaServicio<Administrador>.ConExito(admin);
+            }
+            catch (Exception ex)
+            {
+                return RespuestaServicio<Administrador>.ConError("Error404: al buscar el administrador por cédula: " + ex.Message);
+            }
+           
         }
-        public List<Administrador> BuscarAdminTodos()
+        public RespuestaServicio<List<Administrador>> BuscarAdminTodos()
         {
-            List<Administrador> admin = db.Administradors.ToList();
-            return admin;
+            try {
+                List<Administrador> admin = db.Administradors.ToList();
+                return RespuestaServicio <List<Administrador>>.ConExito( admin);
+            }
+            catch (Exception ex)
+            {
+                return RespuestaServicio<List<Administrador>>.ConError("Error404: al buscar los administradores: " + ex.Message);
+            }
+            
         }
-        public string EliminarAdmin(int idAdmin)
+        public RespuestaServicio<string> EliminarAdmin(int idAdmin)
         {
 
             try
@@ -153,20 +185,20 @@ namespace SpaVehiculosBE.Servicios
                 {
                     db.Administradors.Remove(administrador);
                     db.SaveChanges();
-                    return "El administrador ha sido eliminado correctamente";
+                    return RespuestaServicio<string>.ConExito(default,"El administrador ha sido eliminado correctamente");
                 }
                 else
                 {
-                    return "El administrador no se encuentra registrado";
+                    return RespuestaServicio<string>.ConError("Error404: El administrador no se encuentra registrado");
                 }
             }
             catch (Exception ex)
             {
-                return "Error al eliminar el administrador: " + ex.Message;
+                return RespuestaServicio<string>.ConError("Error al eliminar el administrador: " + ex.Message);
             }
 
         }
-        public string ActualizarAdmin(Administrador admin)
+        public RespuestaServicio<string> ActualizarAdmin(Administrador admin)
         {
             try
             {
@@ -185,35 +217,33 @@ namespace SpaVehiculosBE.Servicios
 
 
                     db.SaveChanges();
-                    return "El administrador ha sido actualizado exitosamente.";
+                    return RespuestaServicio<string>.ConExito(default,"El administrador ha sido actualizado exitosamente.");
 
                 }
                 else
                 {
-                    return "El administrador no existe.";
+                    return RespuestaServicio<string>.ConError("Error404: El administrador no existe.");
                 }
             }
             catch (Exception ex)
             {
-                return "Error al actualizar el administrador: " + ex.Message;
-
+                return RespuestaServicio<string>.ConError("Error al actualizar el administrador: " + ex.Message);
             }
-
         }
 
-        public string ActualizarAdminUsuario(AdminUsuario adminUsuario)
+        public RespuestaServicio<string> ActualizarAdminUsuario(AdminUsuario adminUsuario)
         {
             try
             {
                 Administrador administrador = db.Administradors.FirstOrDefault(a => a.IdAdmin == adminUsuario.IdAdmin);
                 if (administrador == null)
                 {
-                    return "El administrador no existe.";
+                    return RespuestaServicio<string>.ConError("Error404: El administrador no existe.");
                 }
                 Usuario usuario = db.Usuarios.FirstOrDefault(u => u.IdUsuario == administrador.IdUsuario);
                 if (usuario == null)
                 {
-                    return "El usuario asociado al administrador no existe.";
+                    return RespuestaServicio<string>.ConError("El usuario asociado al administrador no existe.");
                 }
                 // Actualizar los datos del administrador
                 administrador.Nombre = adminUsuario.Nombre;
@@ -227,15 +257,15 @@ namespace SpaVehiculosBE.Servicios
                 usuario.DocumentoUsuario = adminUsuario.Cedula;
                 usuario.Estado = adminUsuario.Estado;
                 db.SaveChanges();
-                return "Administrador y usuario actualizados correctamente.";
+                return RespuestaServicio<string>.ConExito(default, "Administrador y usuario actualizados correctamente.");
             }
             catch (Exception ex)
             {
-                return "Error al actualizar el administrador y usuario: " + ex.Message;
+                return RespuestaServicio<string>.ConError("Error al actualizar el administrador y usuario: " + ex.Message);
             }
         }
 
-        public string EliminarAdminUsuario(int id) {
+        public RespuestaServicio<string> EliminarAdminUsuario(int id) {
             try
             {
                 Administrador administrador = db.Administradors.FirstOrDefault(a => a.IdAdmin == id);
@@ -244,22 +274,22 @@ namespace SpaVehiculosBE.Servicios
                     Usuario usuario = db.Usuarios.FirstOrDefault(u => u.IdUsuario == administrador.IdUsuario);
                     if (usuario == null)
                     {
-                        return "El usuario asociado al administrador no existe.";
+                        return RespuestaServicio<string>.ConError("Error404: El usuario asociado al administrador no existe.");
                     }
                     
                     db.Administradors.Remove(administrador);
                     db.Usuarios.Remove(usuario);
                     db.SaveChanges();
-                    return "El administrador y su usuario han sido eliminados correctamente.";
+                    return RespuestaServicio<string>.ConExito(default, "El administrador y su usuario han sido eliminados correctamente.");
                 }
                 else
                 {
-                    return "El administrador no se encuentra registrado.";
+                    return RespuestaServicio<string>.ConError("Error404: El administrador no se encuentra registrado.");
                 }
             }
             catch (Exception ex)
             {
-                return "Error al eliminar el administrador y usuario: " + ex.Message;
+                return RespuestaServicio<string>.ConError("Error al eliminar el administrador y usuario: " + ex.Message);
             }
 
         }

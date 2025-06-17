@@ -146,22 +146,22 @@ namespace SpaVehiculosBE.Servicios
             }
         }
 
-        public string EliminarPDF(int idFactura)
+        public RespuestaServicio<string> EliminarPDF(int idFactura)
         {
             string path = ObtenerRutaPDF(idFactura);
             if (File.Exists(path))
             {
                 try {
                     File.Delete(path);
-                    return "Archivo eliminado correctamente";
+                    return RespuestaServicio<string>.ConExito(default,"Archivo eliminado correctamente");
                 }
                 catch (Exception ex)
                 {
-                    return "Error al eliminar el archivo: " + ex.Message;
+                    return RespuestaServicio<string>.ConError("Error al eliminar el archivo: " + ex.Message);
                 }
                 
             }
-            return "Error404: Factura no encontrada";
+            return RespuestaServicio<string>.ConError("Error404: Factura no encontrada");
         }
     }
 }

@@ -16,14 +16,14 @@ namespace SpaVehiculosBE.Servicios
 
 		private readonly  SpaVehicularDBEntities db = new SpaVehicularDBEntities();
 
-		public string EnviarFactura( int id ) {
+		public RespuestaServicio<string> EnviarFactura( int id ) {
             try
             {
                 Factura factura = db.Facturas.FirstOrDefault(f => f.IdFactura == id);
 
                 if (factura == null)
                 {
-                    return "Error404: Factura no encontrada.";
+                    return RespuestaServicio<string>.ConError("Error404: Factura no encontrada.");
                 }
 
 
@@ -92,14 +92,14 @@ namespace SpaVehiculosBE.Servicios
                 }
                 catch (Exception ex)
                 {
-                    return "Error al guardar el registro de envío: " + ex.Message;
+                    return RespuestaServicio<string>.ConError("Error al guardar el registro de envío: " + ex.Message);
                 }
                 
-                return "Correo enviado correctamente.";
+                return RespuestaServicio<string>.ConExito(default, "Correo enviado correctamente.");
             }
             catch (Exception ex)
             {
-                return "Error al enviar el correo: " + ex.Message;
+                return RespuestaServicio<string>.ConError("Error al enviar el correo: " + ex.Message);
             }
         } 
 

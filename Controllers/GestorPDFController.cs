@@ -55,7 +55,7 @@ namespace SpaVehiculosBE.Controllers
         public IHttpActionResult EliminarPDF(int id)
         {
             GestorFacturaPDF pdfService = new GestorFacturaPDF();
-            string result = pdfService.EliminarPDF(id);
+            RespuestaServicio<string> result = pdfService.EliminarPDF(id);
             return validation.FormatearRespuesta(this, result);
 
         }

@@ -20,46 +20,25 @@ namespace SpaVehiculosBE.Controllers
         [Route("ObtenerTodos")]
         public IHttpActionResult ObtenerTodos()
         {
-            List<Producto> productos = _gestor.ObtenerTodos();
-            return Ok(new
-            {
-                success = true,
-                data = productos
-            });
+            RespuestaServicio<List<Producto>> productos = _gestor.ObtenerTodos();
+            return _validation.FormatearRespuesta(this, productos);
         }
 
         [HttpGet]
         [Route("ObtenerPorId")]
         public IHttpActionResult ObtenerPorId(int id)
         {
-            Producto producto = _gestor.ObtenerPorId(id);
+            RespuestaServicio<Producto> producto = _gestor.ObtenerPorId(id);
 
-            if (producto == null)
-            {
-                return Content(HttpStatusCode.NotFound, new
-                {
-                    success = false,
-                    message = "Producto no encontrado"
-                });
-            }
-
-            return Ok(new
-            {
-                success = true,
-                data = producto
-            });
+            return _validation.FormatearRespuesta(this, producto);
         }
 
         [HttpGet]
         [Route("ObtenerPorSede")]
         public IHttpActionResult ObtenerPorSede(int idSede)
         {
-            List<Producto> productos = _gestor.ObtenerPorSede(idSede);
-            return Ok(new
-            {
-                success = true,
-                data = productos
-            });
+            RespuestaServicio<List<Producto>> productos = _gestor.ObtenerPorSede(idSede);
+            return _validation.FormatearRespuesta(this, productos);
         }
 
         [HttpGet]
@@ -68,9 +47,9 @@ namespace SpaVehiculosBE.Controllers
         {
             try
             {
-                List<ProductoConStockDTO> productosConStock = _gestor.ObtenerConStockPorSede(idSede);
+                RespuestaServicio<List<ProductoConStockDTO>> productosConStock = _gestor.ObtenerConStockPorSede(idSede);
 
-                if (productosConStock == null )
+                if (productosConStock.Data == null )
                 {
                     return Content(HttpStatusCode.NotFound, new {
                         success = false,
@@ -81,7 +60,7 @@ namespace SpaVehiculosBE.Controllers
                 return Ok(new
                 {
                     success = true,
-                    data = productosConStock
+                    data = productosConStock.Data
                 });
             }
             catch (Exception ex)
@@ -96,7 +75,7 @@ namespace SpaVehiculosBE.Controllers
         public IHttpActionResult CrearProducto(Producto producto)
         {
 
-            string result = _gestor.Crear(producto);
+            RespuestaServicio<string> result = _gestor.Crear(producto);
             return _validation.FormatearRespuesta(this, result);
         }
 
@@ -105,7 +84,7 @@ namespace SpaVehiculosBE.Controllers
         public IHttpActionResult ActualizarProducto(Producto producto)
         {
 
-            string result = _gestor.Actualizar(producto);
+            RespuestaServicio<string> result = _gestor.Actualizar(producto);
 
             return _validation.FormatearRespuesta(this, result);
         }
@@ -114,7 +93,7 @@ namespace SpaVehiculosBE.Controllers
         [Route("Eliminar")]
         public IHttpActionResult EliminarProducto(int id)
         {
-            string result = _gestor.Eliminar(id);
+            RespuestaServicio<string> result = _gestor.Eliminar(id);
             return _validation.FormatearRespuesta(this, result);
         }
         [HttpGet]

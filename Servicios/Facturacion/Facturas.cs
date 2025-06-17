@@ -19,10 +19,21 @@ namespace SpaVehiculosBE.Servicios
             public List<DetalleFacturaProducto> Productos { get; set; }
             public List<DetalleFacturaServicio> Servicios { get; set; }
         }
-        public List<Factura> GetFacturas()
+        public RespuestaServicio<List<Factura>> GetFacturas()
         {
-            List<Factura> facturas = db.Facturas.ToList();
-            return facturas;
+            try
+            {
+                List<Factura> facturas = db.Facturas.ToList();
+                if (facturas == null || !facturas.Any())
+                {
+                    return RespuestaServicio<List<Factura>>.ConError("No hay facturas para mostrar");
+                }
+                return RespuestaServicio<List<Factura>>.ConExito(facturas);
+            }
+            catch (Exception ex)
+            {
+                return RespuestaServicio<List<Factura>>.ConError("Error al obtener las facturas: " + ex.Message);
+            }
         }
 
         public int ContarFacturasDeHoy()
@@ -34,74 +45,73 @@ namespace SpaVehiculosBE.Servicios
             return cantidad;
         }
 
+        public RespuestaServicio<FacturaCompletedDTO> GetFactura(int id)
+        {
+            try
+            {
+                Factura factura = db.Facturas.FirstOrDefault(f => f.IdFactura == id);
 
-        public class Response { 
-            public bool Success { get; set; }
-            public string Message { get; set; }
-            public int IdFactura { get; set; }
-
+                if (factura == null)
+                {
+                    return RespuestaServicio<FacturaCompletedDTO>.ConError("Error:404 Factura no encontrada");
+                }      
+                DetalleFactura detalleFactura = new DetalleFactura();
+                DetallesFacturaDTO detallesFacturaDTO = detalleFactura.GetDetallesFactura(id);
+                FacturaCompletedDTO facturaCompletedDTO = new FacturaCompletedDTO
+                {
+                    Factura = factura,
+                    Productos = detallesFacturaDTO.Productos,
+                    Servicios = detallesFacturaDTO.Servicios
+                };
+                return RespuestaServicio<FacturaCompletedDTO>.ConExito(facturaCompletedDTO);
+            }
+            catch(Exception e ) {
+                return RespuestaServicio<FacturaCompletedDTO>.ConError("Error al obtener la factura: " + e.Message);
+            }
+            
         }
 
-        public FacturaCompletedDTO GetFactura(int id)
+        public RespuestaServicio<int> AddFactura(Factura factura, List<DetalleFacturaProducto> detalleProds, List<DetalleFacturaServicio> detalleServs )
+        {
+            try
+            {
+                db.Facturas.Add(factura);
+                db.SaveChanges();
+                DetalleFactura detalleFactura = new DetalleFactura();
+                if (detalleProds != null && detalleProds.Any())
+                {
+                    foreach (DetalleFacturaProducto detalleProd in detalleProds)
+                    {
+                        detalleProd.IdFactura = factura.IdFactura;
+                    }
+                }
+                if (detalleServs != null && detalleServs.Any())
+                {
+                    foreach (DetalleFacturaServicio detalleServ in detalleServs)
+                    {
+                        detalleServ.IdFactura = factura.IdFactura;
+                    }
+                }
+
+                Notificacion notificacion = new Notificacion();
+                string result = detalleFactura.AddDetalle(detalleProds, detalleServs);
+                notificacion.EnviarFactura(factura.IdFactura);
+
+                return RespuestaServicio<int>.ConExito(factura.IdFactura,"Factura generada con exito");
+            }
+            catch (Exception)
+            {
+                return RespuestaServicio<int>.ConError("Error al agregar la factura");
+            }
+        }
+
+        public RespuestaServicio<string> DeleteFactura(int id)
         {
             Factura factura = db.Facturas.FirstOrDefault(f => f.IdFactura == id);
-
-            if (factura == null)
-            {
-                return null;
-            }
-
-            DetalleFactura detalleFactura = new DetalleFactura();
-            DetallesFacturaDTO detallesFacturaDTO = detalleFactura.GetDetallesFactura(id);
-            FacturaCompletedDTO facturaCompletedDTO = new FacturaCompletedDTO
-            {
-                Factura = factura,
-                Productos = detallesFacturaDTO.Productos,
-                Servicios = detallesFacturaDTO.Servicios
-            };
-            return facturaCompletedDTO;
-        }
-
-        public Response AddFactura(Factura factura, List<DetalleFacturaProducto> detalleProds, List<DetalleFacturaServicio> detalleServs )
-        {
-
-            db.Facturas.Add(factura);
-            db.SaveChanges();
-            DetalleFactura detalleFactura = new DetalleFactura();
-            if (detalleProds != null && detalleProds.Any()) {
-                foreach (DetalleFacturaProducto detalleProd in detalleProds)
-                {
-                    detalleProd.IdFactura = factura.IdFactura;
-                }
-            }
-            if(detalleServs != null && detalleServs.Any()) { 
-                foreach (DetalleFacturaServicio detalleServ in detalleServs)
-                {
-                    detalleServ.IdFactura = factura.IdFactura;
-                }
-            }
-
-            Notificacion notificacion = new Notificacion();
-            string result = detalleFactura.AddDetalle(detalleProds, detalleServs);
-            notificacion.EnviarFactura(factura.IdFactura);
-            Response response = new Response
-            {
-                Success = true,
-                Message = result,
-                IdFactura = factura.IdFactura
-            };
-
-            return response;
-
-        }
-
-        public string DeleteFactura(int id)
-        {
-            Factura factura = db.Facturas.FirstOrDefault(f => f.IdFactura == id);
             DetalleFactura detalleFactura = new DetalleFactura();
             if (factura == null)
             {
-                return "Error404: Factura no encontrada";
+                return RespuestaServicio<string>.ConError("Error:404 Factura no encontrada");
             }
             string result = detalleFactura.DeleteDetalles(id);
             try {
@@ -110,12 +120,10 @@ namespace SpaVehiculosBE.Servicios
             }
             catch (Exception ex)
             {
-               
-                return "Error al eliminar la factura: " + ex.Message;
+                 return RespuestaServicio<string>.ConError("Error al eliminar la factura: " + ex.Message);
             }
-            
-            return "Factura eliminada correctamente: "+result;
 
+            return RespuestaServicio<string>.ConExito(default,"Factura eliminada correctamente: " + result);
 
         }
 
