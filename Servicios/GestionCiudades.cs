@@ -67,18 +67,17 @@ namespace ServicesClass.Clases
         public RespuestaServicio<Ciudad> Consultar(int IdCiudad)
         {
             try {
-                Ciudad ciudad = dbSuper.Ciudads.FirstOrDefault(c => c.IdCiudad == IdCiudad);
-                if (ciudad == null)
+                Ciudad ciu = dbSuper.Ciudads.FirstOrDefault(c => c.IdCiudad == IdCiudad);
+                if (ciu == null)
                 {
                     return RespuestaServicio<Ciudad>.ConError("Error404: Ciudad no encontrada");
                 }
+                return RespuestaServicio<Ciudad>.ConExito(ciu);
             }
             catch (Exception ex)
             {
                 return RespuestaServicio<Ciudad>.ConError("Error al consultar la ciudad: " + ex.Message);
             }
-            
-            return RespuestaServicio<Ciudad>.ConExito(ciudad);
         }
         public RespuestaServicio<string> EliminarXId(int IdCiudad)
         {
