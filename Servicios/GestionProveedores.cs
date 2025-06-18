@@ -9,33 +9,56 @@ namespace SpaVehiculosBE.Servicios
     public class GestionProveedores
     {
         private readonly SpaVehicularDBEntities db = new SpaVehicularDBEntities();
-        public string CrearProvedor(Proveedor proveedor)
+        public RespuestaServicio<string> CrearProvedor(Proveedor proveedor)
 
         {
             try
             {
                 db.Proveedors.Add(proveedor);
                 db.SaveChanges();
-                return "Proveedor creado con exito";
+                return RespuestaServicio<string>.ConExito(default, "Proveedor creado con exito");
 
             }
             catch (Exception ex)
             {
-                return "Error al crear el proveedor: " + ex;
+                return RespuestaServicio<string>.ConError("Error al crear el proveedor: " + ex);
             }
         }
-        public Proveedor BuscarProveedorID(int idProveedor)
+        public RespuestaServicio<Proveedor> BuscarProveedorID(int idProveedor)
         {
-            Proveedor proveedor = db.Proveedors.FirstOrDefault(p => p.IdProveedor == idProveedor);
-            return proveedor;
+            try {
+                Proveedor proveedor = db.Proveedors.FirstOrDefault(p => p.IdProveedor == idProveedor);
+                if (proveedor == null)
+                {
+                    return RespuestaServicio<Proveedor>.ConError("Error404: El proveedor con el ID ingresado no existe");
+                }
+
+                return RespuestaServicio<Proveedor>.ConExito(proveedor);
+            }
+            catch (Exception ex)
+            {
+                return RespuestaServicio<Proveedor>.ConError("Error al buscar el proveedor: " + ex.Message);
+            }
+            
         }
        
-        public List<Proveedor> BuscarProveedorTodos()
+        public RespuestaServicio<List<Proveedor>> BuscarProveedorTodos()
         {
-            List<Proveedor> proveedor = db.Proveedors.ToList();
-            return proveedor;
+            try {
+                List<Proveedor> proveedor = db.Proveedors.ToList();
+                if (proveedor == null )
+                {
+                    return RespuestaServicio<List<Proveedor>>.ConError("Error404: No hay proveedores para mostrar");
+                }
+                return RespuestaServicio<List<Proveedor>>.ConExito(proveedor);
+            }
+            catch (Exception ex)
+            {
+                return RespuestaServicio<List<Proveedor>>.ConError("Error al buscar los proveedores: " + ex.Message);
+            }
+            
         }
-        public string EliminarProveedor(int idProveedor)
+        public RespuestaServicio<string> EliminarProveedor(int idProveedor)
         {
 
             try
@@ -45,20 +68,20 @@ namespace SpaVehiculosBE.Servicios
                 {
                     db.Proveedors.Remove(proveedor);
                     db.SaveChanges();
-                    return "El proveedor ha sido eliminado correctamente";
+                    return RespuestaServicio<string>.ConExito( default,"El proveedor ha sido eliminado correctamente");
                 }
                 else
                 {
-                    return "El proveedor no se encuentra registrado";
+                    return RespuestaServicio<string>.ConError("El proveedor no se encuentra registrado");
                 }
             }
             catch (Exception ex)
             {
-                return "Error al eliminar el proveedor: " + ex.Message;
+                return RespuestaServicio<string>.ConError( "Error al eliminar el proveedor: " + ex.Message);
             }
 
         }
-        public string ActualizarProveedor(Proveedor prov)
+        public RespuestaServicio<string> ActualizarProveedor(Proveedor prov)
         {
             try
             {
@@ -71,17 +94,17 @@ namespace SpaVehiculosBE.Servicios
                     proveedor.Teléfono=prov.Teléfono;
                     proveedor.Email = prov.Email; 
                     db.SaveChanges();
-                    return "El proveedor ha sido actualizado exitosamente.";
+                    return RespuestaServicio<string>.ConExito(default,"El proveedor ha sido actualizado exitosamente.");
 
                 }
                 else
                 {
-                    return "El proveedor no existe.";
+                    return RespuestaServicio<string>.ConError("Error404: El proveedor no existe.");
                 }
             }
             catch (Exception ex)
             {
-                return "Error al actualizar el proveedor: " + ex.Message;
+                return RespuestaServicio<string>.ConError("Error al actualizar el proveedor: " + ex.Message);
 
             }
 

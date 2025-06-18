@@ -21,6 +21,5 @@ namespace SpaVehiculosBE.Controllers
             return usuarios.CrearUsuario(usuario, idRol);
         }
 
-
     }
 }

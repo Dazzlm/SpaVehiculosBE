@@ -1,4 +1,5 @@
-﻿using SpaVehiculosBE.Models;
+﻿using Microsoft.Ajax.Utilities;
+using SpaVehiculosBE.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -23,56 +24,81 @@ namespace SpaVehiculosBE.Servicios
         }
 
         private readonly SpaVehicularDBEntities _dbContext = new SpaVehicularDBEntities();
-        public List<Producto> ObtenerTodos()
+        public RespuestaServicio<List<Producto>> ObtenerTodos()
         {
-            List<Producto> productos = _dbContext.Productoes.ToList();
-            return productos;
+            try {
+                List<Producto> productos = _dbContext.Productoes.ToList();
+                return RespuestaServicio<List<Producto>>.ConExito(productos);
+            }
+            catch (Exception ex) {
+                return RespuestaServicio<List<Producto>>.ConError("Error al obtener los productos: " + ex.Message);
+            }
+            
         }
 
-        public Producto ObtenerPorId(int id)
+        public RespuestaServicio<Producto> ObtenerPorId(int id)
         {
-            return _dbContext.Productoes.FirstOrDefault(p => p.IdProducto == id);
-        }
-
-        public List<ProductoConStockDTO> ObtenerConStockPorSede(int idSede)
-        {
-
-
-            List<SedeProducto> stockPorSede = _dbContext.SedeProductoes
-            .Where(s => s.IdSede == idSede && s.StockDisponible != 0)
-            .ToList();
-
-            List<int> productoIds = stockPorSede.Select(s => s.IdProducto).Distinct().ToList();
-
-            List<Producto> productos = _dbContext.Productoes
-                .Where(p => productoIds.Contains(p.IdProducto))
-                .ToList();
-
-            List<ProductoConStockDTO> resultado = productos.Select(p => new ProductoConStockDTO
+            Producto producto = _dbContext.Productoes.FirstOrDefault(p => p.IdProducto == id);
+            if (producto == null)
             {
-                IdProducto = p.IdProducto,
-                Nombre = p.Nombre,
-                Precio = p.Precio,
-                Descripción = p.Descripción,
-                IdProveedor = p.IdProveedor,
-                Imagen = p.Imagen,
-                Stock = stockPorSede.FirstOrDefault(s => s.IdProducto == p.IdProducto)?.StockDisponible ?? 0
-            }).ToList();
-
-            return resultado;
-
+               return RespuestaServicio<Producto>.ConError("Error404: Producto no encontrado");
+            }
+            return RespuestaServicio<Producto>.ConExito(producto);
         }
 
-        public List<Producto> ObtenerPorSede(int idSede)
+        public RespuestaServicio<List<ProductoConStockDTO>> ObtenerConStockPorSede(int idSede)
         {
-            return _dbContext.SedeProductoes
-                .Include(sp => sp.Producto)
-                .Where(sp => sp.IdSede == idSede)
-                .Select(sp => sp.Producto)
-                .ToList();
+
+            try {
+                List<SedeProducto> stockPorSede = _dbContext.SedeProductoes
+                    .Where(s => s.IdSede == idSede && s.StockDisponible != 0)
+                    .ToList();
+
+                List<int> productoIds = stockPorSede.Select(s => s.IdProducto).Distinct().ToList();
+
+                List<Producto> productos = _dbContext.Productoes
+                    .Where(p => productoIds.Contains(p.IdProducto))
+                    .ToList();
+
+                List<ProductoConStockDTO> resultado = productos.Select(p => new ProductoConStockDTO
+                {
+                    IdProducto = p.IdProducto,
+                    Nombre = p.Nombre,
+                    Precio = p.Precio,
+                    Descripción = p.Descripción,
+                    IdProveedor = p.IdProveedor,
+                    Imagen = p.Imagen,
+                    Stock = stockPorSede.FirstOrDefault(s => s.IdProducto == p.IdProducto)?.StockDisponible ?? 0
+                }).ToList();
+                return RespuestaServicio < List < ProductoConStockDTO >>.ConExito( resultado);
+            }
+            catch (Exception ex) {
+                return RespuestaServicio<List<ProductoConStockDTO>>.ConError("Error al obtener productos con stock: " + ex.Message);
+            }
+            
         }
 
-        public string Crear(Producto producto)
+        public RespuestaServicio<List<Producto>> ObtenerPorSede(int idSede)
+        {
+            try {
+                List<Producto> productos = _dbContext.SedeProductoes
+                                .Include(sp => sp.Producto)
+                                .Where(sp => sp.IdSede == idSede)
+                                .Select(sp => sp.Producto)
+                                .ToList();
+                if (productos == null)
+                {
+                    return RespuestaServicio<List<Producto>>.ConError("Error404: No se encontraron productos para la sede especificada");
+                }
+                return RespuestaServicio<List<Producto>>.ConExito(productos);
+            }
+            catch (Exception ex) { 
+                return RespuestaServicio<List<Producto>>.ConError("Error al obtener productos por sede: " + ex.Message);
+            }
+            
+        }
+
+        public RespuestaServicio<string> Crear(Producto producto)
         {
             try
             {
@@ -81,21 +107,20 @@ namespace SpaVehiculosBE.Servicios
             }
             catch (Exception ex)
             {
-                return "Error: " + ex.Message;
+                return RespuestaServicio<string>.ConError( "Error: " + ex.Message);
             }
-            return "Producto creado con éxito";
+            return RespuestaServicio<string>.ConExito(default,"Producto creado con éxito");
         }
 
-        public string Actualizar(Producto producto)
+        public RespuestaServicio<string> Actualizar(Producto producto)
         {
             try
             {
                 Producto actual = _dbContext.Productoes.FirstOrDefault(p => p.IdProducto == producto.IdProducto);
                 if (actual == null)
                 {
-                    return "Error404: Producto no encontrado";
+                    return RespuestaServicio<string>.ConExito("Error404: Producto no encontrado");
                 }
-
 
                 actual.IdProducto = producto.IdProducto;
                 actual.Nombre = producto.Nombre;
@@ -109,20 +134,20 @@ namespace SpaVehiculosBE.Servicios
             }
             catch (Exception ex)
             {
-                return "Error: " + ex.Message;
+                return RespuestaServicio<string>.ConError("Error: " + ex.Message);
             }
-            return "Producto editado con éxito";
+            return RespuestaServicio<string>.ConExito(default,"Producto editado con éxito");
 
         }
 
-        public string Eliminar(int id)
+        public RespuestaServicio<string> Eliminar(int id)
         {
             try
             {
                 Producto producto = _dbContext.Productoes.FirstOrDefault(p => p.IdProducto == id);
                 if (producto == null)
                 {
-                    return "Error404: Producto no encontrado";
+                    return RespuestaServicio<string>.ConExito("Error404: Producto no encontrado");
                 }
 
                 List<SedeProducto> sedeProductos = _dbContext.SedeProductoes.Where(sp => sp.IdProducto == id).ToList();
@@ -136,9 +161,9 @@ namespace SpaVehiculosBE.Servicios
             }
             catch (Exception ex)
             {
-                return "Error: " + ex.Message;
+                return RespuestaServicio<string>.ConError("Error: " + ex.Message);
             }
-            return "Producto eliminado con éxito";
+            return RespuestaServicio<string>.ConExito(default, "Producto eliminado con éxito");
         }
         public int ContarProductos()
         {

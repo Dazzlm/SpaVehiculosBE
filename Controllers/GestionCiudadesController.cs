@@ -1,4 +1,5 @@
 ﻿using ServicesClass.Clases;
+using SpaVehiculosBE;
 using SpaVehiculosBE.Models;
 using SpaVehiculosBE.Servicios;
 using System.Collections.Generic;
@@ -11,45 +12,47 @@ namespace ServicesClass.Clases
 
     public class GestionCiudadesController : ApiController
     {
+        private readonly RespuestaHelper validation = new RespuestaHelper();
+
         [HttpGet]
         [Route("ConsultarTodos")]
-        public List<Ciudad> ConsultarTodos()
+        public IHttpActionResult ConsultarTodos()
         {
             GestionCiudades gestion = new GestionCiudades();
-            return gestion.ConsultarTodos();
+            return validation.FormatearRespuesta(this, gestion.ConsultarTodos());
         }
 
         [HttpGet]
         [Route("ConsultarXId")]
-        public Ciudad ConsultarXId(int IdCiudad)
+        public IHttpActionResult ConsultarXId(int IdCiudad)
         {
             GestionCiudades gestion = new GestionCiudades();
-            return gestion.Consultar(IdCiudad);
+            return validation.FormatearRespuesta(this, gestion.Consultar(IdCiudad));
         }
 
         [HttpPost]
         [Route("Insertar")]
-        public string Insertar([FromBody] Ciudad ciudad)
+        public IHttpActionResult Insertar([FromBody] Ciudad ciudad)
         {
             GestionCiudades gestion = new GestionCiudades();
             gestion.ciudad = ciudad;
-            return gestion.Insertar();
+            return validation.FormatearRespuesta(this, gestion.Insertar());
         }
 
         [HttpPut]
         [Route("Actualizar")]
-        public string Actualizar([FromBody] Ciudad ciudad)
+        public IHttpActionResult Actualizar([FromBody] Ciudad ciudad)
         {
             GestionCiudades gestion = new GestionCiudades();
             gestion.ciudad = ciudad;
-            return gestion.Actualizar();
+            return validation.FormatearRespuesta(this, gestion.Actualizar());
         }
         [HttpDelete]
         [Route("EliminarXId")]
-        public string EliminarXId(int IdCiudad)
+        public IHttpActionResult EliminarXId(int IdCiudad)
         {
             GestionCiudades gestion = new GestionCiudades();
-            return gestion.EliminarXId(IdCiudad);
+            return validation.FormatearRespuesta(this, gestion.EliminarXId(IdCiudad));
         }
     }
 }

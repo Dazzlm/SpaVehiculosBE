@@ -22,12 +22,8 @@ namespace SpaVehiculosBE.Controllers
         public IHttpActionResult GetFacturas()
         {
             Facturas facturas = new Facturas();
-            List<Factura> listaFacturas = facturas.GetFacturas();
-            return Ok(new
-            {
-                success = true,
-                data = listaFacturas
-            });
+            RespuestaServicio< List<Factura>> listaFacturas = facturas.GetFacturas();
+            return validation.FormatearRespuesta(this, listaFacturas);
         }
 
         [HttpGet]
@@ -44,20 +40,8 @@ namespace SpaVehiculosBE.Controllers
         public IHttpActionResult GetFactura(int id)
         {
             Facturas facturas = new Facturas();
-            FacturaCompletedDTO factura = facturas.GetFactura(id);
-            if (factura == null)
-            {
-                return Content(HttpStatusCode.NotFound, new
-                {
-                    success = false,
-                    message = "Factura no encontrada"
-                });
-            }
-            return Ok(new
-            {
-                success = true,
-                data = factura
-            });
+            RespuestaServicio<FacturaCompletedDTO> factura = facturas.GetFactura(id);
+            return validation.FormatearRespuesta(this, factura);
         }
 
         [HttpPost]
@@ -66,43 +50,15 @@ namespace SpaVehiculosBE.Controllers
         {
             if (factura == null)
             {
-                return Content(HttpStatusCode.NotFound, new
+                return Content(HttpStatusCode.BadRequest, new
                 {
                     success = false,
                     message = "formato invalido"
                 });
             }
             Facturas facturas = new Facturas();
-            Response response = facturas.AddFactura(factura.Factura, factura.Productos, factura.Servicios);
-            string result = response.Message;
-
-            if (result.Contains("Error404"))
-            {
-                return Content(HttpStatusCode.NotFound, new
-                {
-                    success = false,
-                    message = result,
-                    
-
-                });
-            }
-
-            if (result.Contains("Error"))
-            {
-                return  Content(HttpStatusCode.BadRequest, new
-                {
-                    success = false,
-                    message = result,
-                });
-            }
-
-            return  Content(HttpStatusCode.OK, new
-            {
-                success = true,
-                message = result,
-                IdFactura = response.IdFactura
-            });
-
+            RespuestaServicio<int> response = facturas.AddFactura(factura.Factura, factura.Productos, factura.Servicios);
+            return validation.FormatearRespuesta(this, response);
         }
     }
 }

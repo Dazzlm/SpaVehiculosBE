@@ -10,43 +10,46 @@ namespace SpaVehiculosBE.Controllers
 {
     public class GestionProveedoresController
     {
+       
+
         [RoutePrefix("api/GestorProv")]
         [AuthorizeSuperAdmin]
 
         public class GestorProveedoresController : ApiController
         {
+            private readonly RespuestaHelper validation = new RespuestaHelper();
             [HttpGet]
             [Route("ConsultarporID")]
             public IHttpActionResult ProvPorID(int idProveedor)
             {
                 GestionProveedores servicioProveedor = new GestionProveedores();
-                return Ok(servicioProveedor.BuscarProveedorID(idProveedor));
+                return validation.FormatearRespuesta(this, servicioProveedor.BuscarProveedorID(idProveedor));
             }
             [HttpGet]
             [Route("ConsultarTodos")]
             public IHttpActionResult TodosProv()
             {
                 GestionProveedores servicioProveedores = new GestionProveedores();
-                return Ok(servicioProveedores.BuscarProveedorTodos());
+                return validation.FormatearRespuesta(this, servicioProveedores.BuscarProveedorTodos());
             }
             [HttpDelete]
             [Route("EliminarProveedor")]
             public IHttpActionResult ElminarProv(int idProveedor) {
                 GestionProveedores servicioProveedores = new GestionProveedores();
-                return Ok(servicioProveedores.EliminarProveedor(idProveedor));
+                return validation.FormatearRespuesta(this, servicioProveedores.EliminarProveedor(idProveedor));
 
             }
             [HttpPut]
             [Route("ActualizarProveedor")]
             public IHttpActionResult ActualizarProv(Proveedor proveedor) {
                 GestionProveedores servicioProveedores = new GestionProveedores();
-                return Ok(servicioProveedores.ActualizarProveedor(proveedor));
+                return validation.FormatearRespuesta(this, servicioProveedores.ActualizarProveedor(proveedor));
             }
             [HttpPost]
             [Route("CrearProveedor")]
             public IHttpActionResult CrearProveedor([FromBody]Proveedor proveedor) {
                 GestionProveedores servicioProveedores = new GestionProveedores();
-                return Ok(servicioProveedores.CrearProvedor(proveedor));
+                return validation.FormatearRespuesta(this, servicioProveedores.CrearProvedor(proveedor));
 
             }
         }

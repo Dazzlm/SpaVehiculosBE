@@ -1,4 +1,5 @@
 ﻿using ServicesClass.Clases;
+using SpaVehiculosBE;
 using SpaVehiculosBE.Models;
 using SpaVehiculosBE.Servicios;
 using System.Collections.Generic;
@@ -11,88 +12,91 @@ namespace ServicesClass.Clases
 
     public class ClientesController : ApiController
     {
+
+        private readonly RespuestaHelper validation = new RespuestaHelper();
+
         [HttpGet]
         [Route("ConsultarTodos")]
-        public List<Cliente> ConsultarTodos()
+        public IHttpActionResult ConsultarTodos()
         {
             GestionClientes gestion = new GestionClientes();
-            return gestion.ConsultarTodos();
+            return validation.FormatearRespuesta(this, gestion.ConsultarTodos());
         }
 
         [HttpGet]
         [Route("ConsultarXId")]
-        public Cliente ConsultarXId(int IdCliente)
+        public IHttpActionResult ConsultarXId(int IdCliente)
         {
             GestionClientes gestion = new GestionClientes();
-            return gestion.Consultar(IdCliente);
+            return validation.FormatearRespuesta(this, gestion.Consultar(IdCliente));
         }
 
         [HttpGet]
 
         [Route("ConsultarXCC")]
-        public Cliente ConsultarXCC(string CC)
+        public IHttpActionResult ConsultarXCC(string CC)
         {
             GestionClientes gestion = new GestionClientes();
-            return gestion.ConsultarXCC(CC);
+            return validation.FormatearRespuesta(this, gestion.ConsultarXCC(CC));
         }
 
         [HttpGet]
         [Route("ConsultarClienteUsuario")]
-        public ClienteUsuario ConsultarClienteUsuario(int id)
+        public IHttpActionResult ConsultarClienteUsuario(int id)
         {
             GestionClientes gestion = new GestionClientes();
-            return gestion.ConsultarClienteUsuario(id);
+            return validation.FormatearRespuesta(this, gestion.ConsultarClienteUsuario(id));
         }
 
 
         [HttpPost]
         [Route("Insertar")]
-        public string Insertar([FromBody] Cliente cliente)
+        public IHttpActionResult Insertar([FromBody] Cliente cliente)
         {
             GestionClientes gestion = new GestionClientes();
             gestion.cliente = cliente;
-            return gestion.Insertar();
+            return validation.FormatearRespuesta(this, gestion.Insertar());
         }
 
         [HttpPost]
         [Route("InsertarClienteUsuario")]
-        public string InsertarClienteUsuario([FromBody] ClienteUsuario clienteUsuario)
+        public IHttpActionResult InsertarClienteUsuario([FromBody] ClienteUsuario clienteUsuario)
         {
             GestionClientes gestion = new GestionClientes();
-            return gestion.InsertarClienteUsuario(clienteUsuario);
+            return validation.FormatearRespuesta(this, gestion.InsertarClienteUsuario(clienteUsuario));
         }
 
         [HttpPut]
         [Route("Actualizar")]
-        public string Actualizar([FromBody] Cliente cliente)
+        public IHttpActionResult Actualizar([FromBody] Cliente cliente)
         {
             GestionClientes gestion = new GestionClientes();
             gestion.cliente = cliente;
-            return gestion.Actualizar();
+            return validation.FormatearRespuesta(this, gestion.Actualizar());
         }
 
         [HttpPut]
         [Route("ActualizarClienteUsuario")]
-        public string ActualizarClienteUsuario([FromBody] ClienteUsuario cliente)
+        public IHttpActionResult ActualizarClienteUsuario([FromBody] ClienteUsuario cliente)
         {
             GestionClientes gestion = new GestionClientes();
-            return gestion.ActualizarClienteUsuario(cliente);
+            return validation.FormatearRespuesta(this, gestion.ActualizarClienteUsuario(cliente));
         }
 
         [HttpDelete]
         [Route("EliminarXId")]
-        public string EliminarXId(int IdCliente)
+        public IHttpActionResult EliminarXId(int IdCliente)
         {
             GestionClientes gestion = new GestionClientes();
-            return gestion.EliminarXId(IdCliente);
+            return validation.FormatearRespuesta(this, gestion.EliminarXId(IdCliente));
         }
 
         [HttpDelete]
         [Route("EliminarClienteUsuario")]
-        public string EliminarClienteUsuario(int idCliente)
+        public IHttpActionResult EliminarClienteUsuario(int idCliente)
         {
             GestionClientes gestion = new GestionClientes();
-            return gestion.EliminarClienteUsuario(idCliente);
+            return validation.FormatearRespuesta(this, gestion.EliminarClienteUsuario(idCliente));
         }
 
         [HttpGet]
