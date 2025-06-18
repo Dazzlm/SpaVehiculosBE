@@ -13,34 +13,36 @@ namespace SpaVehiculosBE.Controllers
 
     public class GestorAdminstradoresController : ApiController
     {
+        private readonly RespuestaHelper validation = new RespuestaHelper();
+
         [HttpGet]
         [Route("ConsultarPorID")]
         public IHttpActionResult AdminPorID(int idAdmin)
         {
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
-            return Ok(servicioAdministrador.BuscarAdminID(idAdmin));
+            return validation.FormatearRespuesta(this, servicioAdministrador.BuscarAdminID(idAdmin));
         }
         [HttpGet]
         [Route("ConsultarPorCedula")]
         public IHttpActionResult AdminPorCedula(string Cedula)
         {
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
-            return Ok(servicioAdministrador.BuscarAdminCedula(Cedula));
+            return validation.FormatearRespuesta(this, servicioAdministrador.BuscarAdminCedula(Cedula));
         }
         [HttpGet]
         [Route("ConsultarTodos")]
         public IHttpActionResult ConsutarTodos()
         {
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
-            return Ok(servicioAdministrador.BuscarAdminTodos());
+            return validation.FormatearRespuesta(this, servicioAdministrador.BuscarAdminTodos());
         }
 
         [HttpGet]
         [Route("ConsultarAdminUsuario")]
-        public AdminUsuario ConsultarAdminUsuario(int id)
+        public IHttpActionResult ConsultarAdminUsuario(int id)
         {
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
-            return servicioAdministrador.BuscarAdminUsuario(id);
+            return validation.FormatearRespuesta(this, servicioAdministrador.BuscarAdminUsuario(id));
         }
 
         [HttpDelete]
@@ -48,16 +50,16 @@ namespace SpaVehiculosBE.Controllers
         public IHttpActionResult BorrarAdmin(int idAdmin)
         {
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
-            return Ok(servicioAdministrador.EliminarAdmin(idAdmin));
+            return validation.FormatearRespuesta(this, servicioAdministrador.EliminarAdmin(idAdmin));
 
         }
 
         [HttpDelete]
         [Route("EliminarAdminUsuario")]
-        public String BorrarAdminUsuario(int idAdmin)
+        public IHttpActionResult BorrarAdminUsuario(int idAdmin)
         {
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
-            return servicioAdministrador.EliminarAdminUsuario(idAdmin);
+            return validation.FormatearRespuesta(this, servicioAdministrador.EliminarAdminUsuario(idAdmin));
         }
 
         [HttpPut]
@@ -65,15 +67,15 @@ namespace SpaVehiculosBE.Controllers
         public IHttpActionResult ActualizarAdmin(Administrador admin)
         {
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
-            return Ok(servicioAdministrador.ActualizarAdmin(admin));
+            return validation.FormatearRespuesta(this, servicioAdministrador.ActualizarAdmin(admin));
 
         }
         [HttpPut]
         [Route("ActualizarAdminUsuario")]
-        public string ActualizarAdminUsuario(AdminUsuario adminUsuario)
+        public IHttpActionResult ActualizarAdminUsuario(AdminUsuario adminUsuario)
         {
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
-            return servicioAdministrador.ActualizarAdminUsuario(adminUsuario);
+            return validation.FormatearRespuesta(this, servicioAdministrador.ActualizarAdminUsuario(adminUsuario));
         }
 
         [HttpPost]
@@ -81,7 +83,7 @@ namespace SpaVehiculosBE.Controllers
         public IHttpActionResult CrearAdmin([FromBody] Administrador admin)
         {
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
-            return Ok(servicioAdministrador.CrearAdmin(admin));
+            return validation.FormatearRespuesta(this, servicioAdministrador.CrearAdmin(admin));
 
         }
         [HttpPost]
@@ -89,7 +91,7 @@ namespace SpaVehiculosBE.Controllers
         public IHttpActionResult InsertarAdminUsuario([FromBody] AdminUsuario adminUsuario)
         {
             GestionAdministradores servicioAdministrador = new GestionAdministradores();
-            return Ok(servicioAdministrador.InsertarAdminUsuario(adminUsuario));
+            return validation.FormatearRespuesta(this, servicioAdministrador.InsertarAdminUsuario(adminUsuario));
 
         }
     }

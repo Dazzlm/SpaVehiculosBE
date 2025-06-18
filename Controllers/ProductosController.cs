@@ -44,31 +44,10 @@ namespace SpaVehiculosBE.Controllers
         [HttpGet]
         [Route("ObtenerConStockPorSede")]
         public IHttpActionResult ObtenerConStockPorSede(int idSede)
-        {
-            try
-            {
-                RespuestaServicio<List<ProductoConStockDTO>> productosConStock = _gestor.ObtenerConStockPorSede(idSede);
-
-                if (productosConStock.Data == null )
-                {
-                    return Content(HttpStatusCode.NotFound, new {
-                        success = false,
-                        message = "No se encontraron productos con stock para la sede especificada."
-                    } );
-                }
-
-                return Ok(new
-                {
-                    success = true,
-                    data = productosConStock.Data
-                });
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
+        {                
+            RespuestaServicio<List<ProductoConStockDTO>> productosConStock = _gestor.ObtenerConStockPorSede(idSede);
+             return _validation.FormatearRespuesta(this, productosConStock);
         }
-
 
         [HttpPost]
         [Route("Crear")]

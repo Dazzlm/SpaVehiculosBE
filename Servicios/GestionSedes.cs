@@ -30,9 +30,9 @@ namespace ServicesClass.Clases
             try
             {
                 RespuestaServicio<Sede> s = Consultar(sede.IdSede);
-                if (s == null)
+                if (s.Data == null)
                 {
-                    return RespuestaServicio<string>.ConError("La sede con el ID ingresado no existe, por lo tanto no se puede actualizar");
+                    return RespuestaServicio<string>.ConError("Error404: La sede con el ID ingresado no existe, por lo tanto no se puede actualizar");
                 }
                 dbSuper.Sedes.AddOrUpdate(sede);
                 dbSuper.SaveChanges();
@@ -61,6 +61,11 @@ namespace ServicesClass.Clases
         {
             try {
                 Sede sede = dbSuper.Sedes.FirstOrDefault(s => s.IdSede == IdSede);
+
+                if (sede == null) {
+                    return RespuestaServicio<Sede>.ConError("Error404: No se encontro la sede");
+                }
+
                 return RespuestaServicio<Sede>.ConExito(sede);
             }
             catch (Exception ex)
@@ -73,7 +78,7 @@ namespace ServicesClass.Clases
             try
             {
                 RespuestaServicio<Sede> s = Consultar(IdSede);
-                if (s == null)
+                if (s.Data == null)
                 {
                     return RespuestaServicio<string>.ConError("Error404: La sede con el ID ingresado no existe, por lo tanto no se puede eliminar");
                 }

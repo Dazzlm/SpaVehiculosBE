@@ -142,11 +142,14 @@ namespace SpaVehiculosBE.Servicios
         {
             try {
                 Administrador admin = db.Administradors.FirstOrDefault(a => a.IdAdmin == idAdmin);
+                if (admin == null) { 
+                    return RespuestaServicio<Administrador>.ConError("Error404: al buscar el administrador");
+                }
                 return RespuestaServicio<Administrador>.ConExito(admin);
             }
             catch(Exception ex)
             {
-                return RespuestaServicio<Administrador>.ConError("Error404: al buscar el administrador: " + ex.Message);
+                return RespuestaServicio<Administrador>.ConError("Error: al buscar el administrador: " + ex.Message);
             }
             
         }
@@ -155,6 +158,10 @@ namespace SpaVehiculosBE.Servicios
             try
             {
                 Administrador admin = db.Administradors.FirstOrDefault(a => a.Cedula == cedula);
+                if (admin == null)
+                {
+                    return RespuestaServicio<Administrador>.ConError("Error404: al buscar el administrador");
+                }
                 return RespuestaServicio<Administrador>.ConExito(admin);
             }
             catch (Exception ex)

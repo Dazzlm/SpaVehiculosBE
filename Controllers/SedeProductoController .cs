@@ -21,11 +21,7 @@ namespace SpaVehiculosBE.Controllers
         public IHttpActionResult ConsultarPorID(int idSedeProducto)
         {
             RespuestaServicio< List<SedeProducto>> sedeProducto = gestorProductoSede.BuscarProductosSedeID(idSedeProducto);
-            return Ok(new
-            {
-                success = true,
-                data = sedeProducto
-            });
+            return validation.FormatearRespuesta(this, sedeProducto);
         }
 
         [HttpGet]
@@ -33,15 +29,7 @@ namespace SpaVehiculosBE.Controllers
         public IHttpActionResult ConsultarPorIdSedeProducto(int idSedeProducto)
         {
             RespuestaServicio<SedeProducto> sedeProducto = gestorProductoSede.BuscarPorID(idSedeProducto);
-            if (sedeProducto == null)
-            {
-                return NotFound();
-            }
-            return Ok(new
-            {
-                success = true,
-                data = sedeProducto
-            });
+            return validation.FormatearRespuesta(this, sedeProducto);
         }
 
         [HttpGet]
@@ -50,15 +38,7 @@ namespace SpaVehiculosBE.Controllers
         public IHttpActionResult ConsultarPorSede()
         {
             RespuestaServicio<List<SedeProducto>> sedeProductos = gestorProductoSede.BuscarProductoSedeTodos();
-            if (sedeProductos.Data == null || !sedeProductos.Data.Any())
-            {
-                return NotFound();
-            }
-            return Ok(new
-            {
-                success = true,
-                data = sedeProductos
-            });
+            return validation.FormatearRespuesta(this, sedeProductos);
         }
         [HttpPost]
         [Route("Crear")]
